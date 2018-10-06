@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  
+  <name>timer_package</name>
+  
+  <version>0.0.1</version>
+  
+  <description>The timer_package package</description>
+  
+  <maintainer email="ramilsafnab1996@gmail.com">Safin Ramil</maintainer>s
+  
+  <license>MIT</license>
+
+  <!-- Url tags are optional, but multiple are allowed, one per tag -->
+  <!-- Optional attribute type can be: website, bugtracker, or repository -->
+  <!-- Example: -->
+  <url type="repository">https://github.com/chupakabra1996/ros-courses-2018</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+
+</package>

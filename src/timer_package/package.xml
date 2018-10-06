@@ -11,9 +11,6 @@
   
   <license>MIT</license>
 
-  <!-- Url tags are optional, but multiple are allowed, one per tag -->
-  <!-- Optional attribute type can be: website, bugtracker, or repository -->
-  <!-- Example: -->
   <url type="repository">https://github.com/chupakabra1996/ros-courses-2018</url>
 
   <buildtool_depend>catkin</buildtool_depend>

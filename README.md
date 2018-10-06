@@ -4,7 +4,7 @@
 
 This course is intended for newbies in Robot Operating System Framework.
 
-The most preferred way of clonning this repo is to create a catkin workspace:
+The most preferred way of getting started with this repo is to create a catkin workspace:
 ```shell
 # workspace will located at ~/catkin_ws
 git clone <repo_url> ~/catkin_ws
@@ -41,4 +41,4 @@ roscore
 
 This repo is only for educational purposes. You may want to fork it in order to apply some changes.
 
-However, bugs reports and enhancement proposals are welcomed.
+However, bug reports and enhancement proposals are welcomed.

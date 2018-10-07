@@ -15,7 +15,7 @@ git clone <repo_url> ~/catkin_ws
 - Ubuntu 16.04 (Xenial)
 - ROS Kinetic ([installation](http://wiki.ros.org/kinetic/Installation/Ubuntu))
 - C++ (GNU GCC ver. 5.4+).
-- Favorite IDE (e.g. CLion, [QtCreator + ROS plugin](https://ros-industrial.github.io/ros_qtc_plugin/index.html))
+- Favorite IDE or Text Editor (e.g. CLion, [QtCreator + ROS plugin](https://ros-industrial.github.io/ros_qtc_plugin/index.html))
 
 ### Build & Run
 
@@ -23,11 +23,14 @@ Build (using `catkin_make`):
 ```shell 
 cd ~/catkin_ws && catkin_make [--pkg package_name]
 
-# in case of zsh, source setup.zsh
+# for bash users
 source ~/catkin_ws/devel/setup.bash
+
+# for zsh users
+source ~/catkin_ws/devel/setup.zsh
 ```
 
-To run the a node (executable) inside the package:
+To run a node (executable) inside the package:
 ```shell
 # do not forget to start a master node at first
 roscore

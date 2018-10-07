@@ -6,7 +6,7 @@ This course is intended for newbies in Robot Operating System Framework.
 
 The most preferred way of getting started with this repo is to create a catkin workspace:
 ```shell
-# workspace will located at ~/catkin_ws
+# workspace will be located at ~/catkin_ws
 git clone <repo_url> ~/catkin_ws
 ```
 

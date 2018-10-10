@@ -40,6 +40,10 @@ roscore
  rosrun <package_name> <node_name> [params ...]
 ```
 
+## Useful resources
+
+- [ROS Tutorials](http://wiki.ros.org/ROS/Tutorials/)
+
 ## Contribution
 
 This repo is only for educational purposes. You may want to fork it in order to apply some changes.

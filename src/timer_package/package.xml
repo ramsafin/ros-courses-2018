@@ -3,11 +3,11 @@
   
   <name>timer_package</name>
   
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   
-  <description>The timer_package package</description>
+  <description>The timer package package</description>
   
-  <maintainer email="ramilsafnab1996@gmail.com">Safin Ramil</maintainer>s
+  <maintainer email="ramilsafnab1996@gmail.com">Safin Ramil</maintainer>
   
   <license>MIT</license>
 

@@ -26,15 +26,28 @@
 
 #include <ros/ros.h>
 #include <ros/time.h>
+#include <cstdlib>
 
 int main(int argc, char **argv) {
 
+  // by default the frequency of printing something out is 2 Hz (2 message per second)
+  int frequency = 2;
+
+  if (argc == 2) {
+      // try parsing CLI defined frequency
+    int arg_frequency = std::atoi(argv[1]);
+
+    if (arg_frequency > 0) frequency = arg_frequency;
+  }
+
   ros::init(argc, argv, "timer_node");
+
+  ROS_INFO_STREAM("timer_node has started with " << frequency << "Hz frequency");
 
   ros::NodeHandle nodeHandle;
 
   // 2 Hz frequency
-  ros::Rate loop_rate(2);
+  ros::Rate loop_rate(frequency);
 
   while (ros::ok()) {
 

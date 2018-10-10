@@ -49,7 +49,7 @@ In this case you have no need to start ros master node manually, it will be laun
 
 ## Misc
 
-Get additional information:
+Explore the environment:
 
 ```shell
 # list all started nodes
@@ -68,6 +68,19 @@ rostopic info /chat
 # listen to the messages in /chat
 rostopic echo /chat
 ```
+### Rqt Graph
+
+You can visualize the relationship between nodes: topics, publishers and subscribers, etc. in **rqt_graph** node.
+
+After you started ros master node, `talker` and `listener` (you can use a launch file):
+
+```shell
+ rosrun rqt_graph rqt_graph
+```
+
+<p align="center">
+  <image src="pictures/rqt_graph.png" alt="Rqt Graph"></image>
+</p>
 
 ## Resources
 

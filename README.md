@@ -37,7 +37,7 @@ roscore
 ```
 
 ```shell
- rosrun <package_name> <node_name> [params ...]
+rosrun <package_name> <node_name> [params ...]
 ```
 
 ## Useful resources

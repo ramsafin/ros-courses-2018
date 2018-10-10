@@ -39,7 +39,7 @@ To stop the node press `Ctrl + C`.
 Try acquiring adiitional information:
 
 ```shell
-# list started nodes (you should see `/timer_node` along with others)
+# list started nodes (you should see /timer_node along with others)
 rosnode list
 
 # get info about publish and subscribed topics 

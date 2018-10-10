@@ -51,3 +51,6 @@ rostopic list
 # listen to the messages in /rosout
 rostopic echo /rosout
 ```
+## Resources
+- [ROS initialization and shutdown](http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown)
+- [ROS node handles](http://wiki.ros.org/roscpp/Overview/NodeHandles)

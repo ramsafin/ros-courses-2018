@@ -42,10 +42,10 @@ Try acquiring adiitional information:
 # list started nodes (you should see /timer_node along with others)
 rosnode list
 
-# get info about publish and subscribed topics 
+# get info about published and subscribed topics 
 rosnode info /timer_node
 
-# show existing topic
+# show existing topics
 rostopic list
 
 # listen to the messages in /rosout

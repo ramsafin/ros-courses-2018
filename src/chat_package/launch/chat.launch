@@ -1,0 +1,5 @@
+<launch>
+	<node name="Alice" pkg="chat_package" type="talker" output="screen"/>
+	<node name="Bob" pkg="chat_package" type="talker" output="screen"/>
+	<node name="EvilHacker" pkg="chat_package" type="listener" output="screen"/>
+</launch>

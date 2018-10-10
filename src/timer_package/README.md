@@ -7,7 +7,7 @@ with defined frequency.
 
 | Parameter     | Description   |    Optional   |  Default value |
 | ------------- | ------------- | ------------- | -------------- |
-| `frequency`   | frequency of printing to the output| yes | 2 Hz|
+| `frequency`   | printing frequency | yes | 2 Hz|
 
 
 ## Build & Run

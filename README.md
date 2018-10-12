@@ -40,6 +40,17 @@ roscore
 rosrun <package_name> <node_name> [params ...]
 ```
 
+### Tests
+
+- Run unit tests:
+```shell
+# from the ~/catkin_ws/
+catkin_make run_tests
+
+# or from the ~/catking_ws/build
+make run_tests
+```
+
 ## Useful resources
 
 - [ROS Tutorials](http://wiki.ros.org/ROS/Tutorials/)

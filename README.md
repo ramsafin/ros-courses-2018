@@ -45,15 +45,16 @@ rosrun <package_name> <node_name> [params ...]
 - Run unit tests:
 ```shell
 # from the ~/catkin_ws/
-catkin_make run_tests
+catkin_make run_tests[_package_name]
 
 # or from the ~/catking_ws/build
-make run_tests
+make run_tests[_package_name]
 ```
 
 ## Useful resources
 
 - [ROS Tutorials](http://wiki.ros.org/ROS/Tutorials/)
+- [How to run tests for specific package](https://answers.ros.org/question/62583/how-do-i-only-run-tests-for-only-one-package/)
 
 ## Contribution
 

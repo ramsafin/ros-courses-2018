@@ -1,3 +1,6 @@
-# catkin build and devel
+# catkin
 build
 devel
+logs
+.catkin*
+

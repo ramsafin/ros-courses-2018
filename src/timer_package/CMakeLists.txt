@@ -117,3 +117,7 @@ target_link_libraries(
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
+
+catkin_add_gtest(${PROJECT_NAME}_test test/test_timer_package.cpp)
+target_link_libraries(${PROJECT_NAME}_test ${CATKIN_LIBRARIES})
+

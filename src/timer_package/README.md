@@ -7,7 +7,7 @@ with defined frequency.
 
 | Parameter     | Description   |    Optional   |  Default value (Hz) |
 | ------------- | ------------- | ------------- | -------------- |
-| `timer_frequency`   | publishing frequency | yes | 2 |
+| `frequency`   | publishing frequency | yes | 2 |
 
 
 ## Build & Run

@@ -35,7 +35,7 @@ TEST(TestCase, shouldPass) {
 }
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "test_time_node");
+  ros::init(argc, argv, "timer_node_test");
   ::testing::InitGoogleTest(&argc, argv);
 
   std::thread t([]{ while(ros::ok()) ros::spin();});

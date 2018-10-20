@@ -46,10 +46,6 @@ rostest timer_package timer_frequency.test
 
 Start unit tests (gtest):
 ```shell
-rostest timer_package timer_gtest.test
-
-# or
-
 catkin_make run_tests_timer_package
 ```
 

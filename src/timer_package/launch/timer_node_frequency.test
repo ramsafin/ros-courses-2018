@@ -1,0 +1,18 @@
+<launch>
+  <arg name="timer_test_frequency" value="3"/>
+   
+  <!-- timer_node with the specified frequency -->
+  <include file="$(find timer_package)/launch/timer.launch">
+    <arg name="timer_frequency" value="$(arg timer_test_frequency)"/>
+  </include>
+
+  <!-- frequency test node -->
+  <test test-name="timer_hztest" pkg="rostest" type="hztest" name="timer_hz">
+    <!-- timer_node is printing to the stdout -->
+    <param name="topic" value="rosout"/>
+    <param name="hz" value="$(arg timer_test_frequency)"/>
+    <param name="hzerror" value="0.5" />
+    <param name="test_duration" value="10.0"/>
+  </test>
+
+</launch>

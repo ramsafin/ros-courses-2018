@@ -32,6 +32,13 @@ roscore
 rosrun timer_package timer_node [frequency]
 ```
 
+## Tests
+
+Run integration tests (publishing frequency test):
+```shell
+rostest timer_package timer_node_frequency.test
+```
+
 ## Misc
 
 To stop the node press `Ctrl + C`.
@@ -54,3 +61,5 @@ rostopic echo /rosout
 ## Resources
 - [ROS initialization and shutdown](http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown)
 - [ROS node handles](http://wiki.ros.org/roscpp/Overview/NodeHandles)
+- [ROS node params](http://wiki.ros.org/roscpp_tutorials/Tutorials/Parameters)
+- [ROS launch file param](http://wiki.ros.org/roslaunch/XML/param)

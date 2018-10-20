@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(timer_package)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++11 -Wall -g)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -118,6 +118,9 @@ target_link_libraries(
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
-catkin_add_gtest(${PROJECT_NAME}_test test/test_timer_package.cpp)
-target_link_libraries(${PROJECT_NAME}_test ${CATKIN_LIBRARIES})
-
+## Add gtest based cpp test target and link libraries
+if(CATKIN_ENABLE_TESTING)
+	find_package(rostest REQUIRED)
+	# add_rostest_gtest(${PROJECT_NAME}-test test/timer_node_test.cpp)
+ #  	target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
+endif()

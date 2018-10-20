@@ -1,0 +1,8 @@
+<launch>
+  <arg name="timer_frequency" default="2"/>
+   
+  <!-- timer_node with specified 'frequency' parameter -->
+  <node name="timer_node" pkg="timer_package" type="timer_node">
+  	<param name="frequency" type="int" value="$(arg timer_frequency)"/>
+  </node>
+</launch>

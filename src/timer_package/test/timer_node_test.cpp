@@ -24,36 +24,21 @@
  * @author Ramil Safin.
  */
 
+#include <gtest/gtest.h>
 #include <ros/ros.h>
-#include <ros/time.h>
-#include <cstdlib>
-
-/* constans */
-static constexpr int FREQUENCY_HZ = 2;
+#include <thread>
 
 int main(int argc, char **argv) {
+	ros::init(argc, argv, "timer_test_node");
+  ::testing::InitGoogleTest(&argc, argv);
 
-  ros::init(argc, argv, "timer_node");
+  std::thread t([]{ while(ros::ok()) ros::spin();});
+  
+  auto res = RUN_ALL_TESTS();
 
-  ros::NodeHandle nodeHandle;
-
-  // get the frequncy parameter or use the default value
-  int frequency;
-  nodeHandle.param<int>("timer_node/frequency", frequency, FREQUENCY_HZ);
-
-  ROS_INFO_STREAM("timer_node has started with " << frequency << "Hz frequency");
-
-  // frequency (Hz)
-  ros::Rate loop_rate(frequency);
-
-  while (ros::ok()) {
-
-    ROS_WARN_STREAM(ros::Time::now()); // print out current time
-
-    ros::spinOnce();
-
-    loop_rate.sleep(); 
-  }
-
-  return 0;
+  t.join();
+  
+  ros::shutdown();
+  
+  return res;
 }

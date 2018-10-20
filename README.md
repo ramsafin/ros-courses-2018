@@ -42,13 +42,17 @@ rosrun <package_name> <node_name> [params ...]
 
 ### Tests
 
-- Run unit tests:
+- Run unit tests (gtest):
 ```shell
 # from the ~/catkin_ws/
 catkin_make run_tests[_package_name]
 
 # or from the ~/catking_ws/build
 make run_tests[_package_name]
+```
+- Run integration tests (rostest):
+```shell
+rostest <package_name> <launch file.test>
 ```
 
 ## Useful resources
@@ -58,6 +62,6 @@ make run_tests[_package_name]
 
 ## Contribution
 
-This repo is only for educational purposes. You may want to fork it in order to apply some changes.
+This repo is only for educational purposes. You can fork it in order to make changes.
 
 However, bug reports and enhancement proposals are welcomed.

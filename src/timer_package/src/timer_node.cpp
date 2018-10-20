@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 
   while (ros::ok()) {
 
-    ROS_WARN_STREAM(ros::Time::now()); // print out current time
+    ROS_WARN_STREAM(ros::Time::now()); // print out current time into /rosout
 
     ros::spinOnce();
 

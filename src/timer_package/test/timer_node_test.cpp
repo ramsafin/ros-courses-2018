@@ -28,17 +28,23 @@
 #include <ros/ros.h>
 #include <thread>
 
+TEST(TestCase, shouldPass) {
+	// actually it is possible to subscribe to the topics
+	// and fully use ros features here
+	EXPECT_EQ(1, 1) << "1 should equal to 1";
+}
+
 int main(int argc, char **argv) {
-	ros::init(argc, argv, "timer_test_node");
+  ros::init(argc, argv, "test_time_node");
   ::testing::InitGoogleTest(&argc, argv);
 
   std::thread t([]{ while(ros::ok()) ros::spin();});
   
   auto res = RUN_ALL_TESTS();
-
-  t.join();
   
   ros::shutdown();
+
+  t.join();
   
   return res;
 }

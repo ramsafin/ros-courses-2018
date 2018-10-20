@@ -1,13 +1,13 @@
 # Timer package
 
-Timer package contains only one node (`timer_node`) which prints out current time to the standart output (`/rosout`) 
+Timer package contains only one node (`timer_node`) which publishes current time to the standart output (`/rosout`) 
 with defined frequency.
 
 ## Parameters
 
-| Parameter     | Description   |    Optional   |  Default value |
+| Parameter     | Description   |    Optional   |  Default value (Hz) |
 | ------------- | ------------- | ------------- | -------------- |
-| `frequency`   | printing frequency | yes | 2 Hz|
+| `timer_frequency`   | publishing frequency | yes | 2 |
 
 
 ## Build & Run
@@ -28,15 +28,29 @@ Now, you can start `timer_node`:
 # do not forget to start ros master node at first (in the separate terminal tab or window)
 roscore
 
-# start the timer node
-rosrun timer_package timer_node [frequency]
+# start the timer node (with default frequency)
+rosrun timer_package timer_node
+```
+
+or, alternatively, you can start it using a launch file:
+```shell
+roslaunch timer_package timer.launch [timer_frequency:=<value>]
 ```
 
 ## Tests
 
-Run integration tests (publishing frequency test):
+Run integration tests:
 ```shell
-rostest timer_package timer_node_frequency.test
+rostest timer_package timer_frequency.test
+```
+
+Start unit tests (gtest):
+```shell
+rostest timer_package timer_gtest.test
+
+# or
+
+catkin_make run_tests_timer_package
 ```
 
 ## Misc
@@ -57,6 +71,9 @@ rostopic list
 
 # listen to the messages in /rosout
 rostopic echo /rosout
+
+# measure the publishing frequency into /rosout
+rostopic hz /rosout 
 ```
 ## Resources
 - [ROS initialization and shutdown](http://wiki.ros.org/roscpp/Overview/Initialization%20and%20Shutdown)

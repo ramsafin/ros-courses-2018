@@ -121,6 +121,6 @@ target_link_libraries(
 ## Add gtest based cpp test target and link libraries
 if(CATKIN_ENABLE_TESTING)
 	find_package(rostest REQUIRED)
-	# add_rostest_gtest(${PROJECT_NAME}-test test/timer_node_test.cpp)
- #  	target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
+	add_rostest_gtest(timer_node_test launch/timer_gtest.test test/timer_node_test.cpp)
+ 	target_link_libraries(timer_node_test ${catkin_LIBRARIES})
 endif()

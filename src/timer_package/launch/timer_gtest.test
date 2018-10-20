@@ -1,0 +1,3 @@
+<launch>
+	<test test-name="timer_unit_tests" pkg="timer_package" type="timer_node_test"/>
+</launch>

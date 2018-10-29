@@ -2,13 +2,15 @@ cmake_minimum_required(VERSION 2.8.3)
 project(chat_package)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++11 -Wall -g)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  std_msgs rospy roscpp
+  std_msgs
+  rospy
+  roscpp
 )
 
 
@@ -64,3 +66,20 @@ add_executable(listener src/Listener.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(talker ${catkin_LIBRARIES})
 target_link_libraries(listener ${catkin_LIBRARIES})
+
+#############
+## Testing ##
+#############
+
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_timer_package.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
+
+## Add gtest based cpp test target and link libraries
+if(CATKIN_ENABLE_TESTING)
+	find_package(rostest REQUIRED)
+	# add_rostest_gtest(timer_node_test launch/timer_gtest.test test/timer_node_test.cpp)
+ 	# target_link_libraries(timer_node_test ${catkin_LIBRARIES})
+endif()

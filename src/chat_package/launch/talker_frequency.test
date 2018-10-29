@@ -1,0 +1,17 @@
+<launch>
+  <arg name="talker_test_frequency" value="2"/>
+   
+  <!-- talker node -->
+  <include file="$(find chat_package)/launch/talker.launch">
+    <arg name="talker_frequency" value="$(arg talker_test_frequency)"/>
+  </include>
+
+  <!-- frequency test node -->
+  <test test-name="talker_hztest" pkg="rostest" type="hztest" name="talker_hz">
+    <param name="topic" value="chat"/>
+    <param name="hz" value="$(arg talker_test_frequency)"/>
+    <param name="hzerror" value="0.5" />
+    <param name="test_duration" value="10.0"/>
+  </test>
+
+</launch>

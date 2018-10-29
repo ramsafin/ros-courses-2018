@@ -28,19 +28,26 @@
 #include <std_msgs/String.h>
 #include <string>
 
+static constexpr int FREQUENCY_HZ = 1;
+
 int main(int argc, char ** argv) {
 
   // init the 'talker' node
   ros::init(argc, argv, "talker");
 
   ros::NodeHandle node;
+  ros::NodeHandle nh_("~");  // node handle to obtain local parameters
+
+  int frequency;
+  nh_.param<int>("frequency", frequency, FREQUENCY_HZ);
+
+  ROS_INFO_STREAM("talker node has started with " << frequency << "Hz frequency");
 
   // create a topic '/chat' where messages will be published
   // the 2nd parameter defines the outoging messages queue size 
   ros::Publisher chat_pub = node.advertise<std_msgs::String>("chat", 25);
 
-  // 1 Hz rate 
-  ros::Rate loop_rate(1);
+  ros::Rate loop_rate(frequency);
 
   // used to count message id (number of messages)
   int count = 0;

@@ -1,0 +1,8 @@
+<launch>
+  <arg name="talker_frequency" default="1"/>
+   
+  <!-- publisher with specified 'frequency' parameter -->
+  <node name="talker" pkg="chat_package" type="talker" output="screen">
+  	<param name="frequency" type="int" value="$(arg talker_frequency)"/>
+  </node>
+</launch>

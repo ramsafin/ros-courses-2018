@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 
   ros::NodeHandle nodeHandle;
 
-  // get the frequncy parameter or use the default value
+  // get the frequency parameter or use the default value
   int frequency;
   nodeHandle.param<int>("timer_node/frequency", frequency, FREQUENCY_HZ);
 

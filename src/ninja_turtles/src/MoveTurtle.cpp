@@ -48,12 +48,12 @@ bool is_near(double value, double otherValue) {
   return std::abs(value - otherValue) < EPS;
 }
 
-// checks if the fiven value is in the specified range
+// checks if the given value is in the specified range
 bool is_in_range(double value, double start, double end) {
   return value >= start && value <= end;
 }
 
-// possible orientations of the turtle (see turtlesim::Pose)
+// possible orientations of the turtle (see turtlesim Pose)
 enum class TurtleOrientation : uint8_t {
   NORTH,
   SOUTH,
@@ -110,14 +110,14 @@ class MoveTurtleBehaviour {
     virtual void Move(turtlesim::PoseConstPtr pose, ros::Publisher& pub) = 0;
 
   private:
-    // handles turtle's position by forwarding call to specific Move implementation
+    // handles turtle's next move by forwarding its pose to specific Move implementation
     void OnMessageCallback(const turtlesim::PoseConstPtr& pose) {
       Move(pose, publisher_);
     }
 
     ros::NodeHandle& nodeHandle_;
-    ros::Subscriber subscriber_;
-    ros::Publisher publisher_;
+    ros::Subscriber subscriber_;  // subscribes to the 'turtle1/pose'
+    ros::Publisher publisher_;  // published to the 'turtle1/cmd_vel
 };
 
 class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
@@ -157,6 +157,7 @@ class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
     // whether to move forward or not
     bool moveForward;
 
+    /* constants */
     static constexpr auto FORWARD_DISTANCE_M = 1.0;
     static constexpr auto TURN_RADIANS = PI_4;
 };

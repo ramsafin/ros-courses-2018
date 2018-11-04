@@ -30,4 +30,4 @@ roslaunch custom_message robot_status.launch [robot_id:=<int value> durability_l
 
 ## Resources
 - [ROS time ovrview](http://wiki.ros.org/roscpp/Overview/Time)
-- [Creating ROS messages Wiki] (http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv)
+- [Creating ROS messages Wiki](http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv)

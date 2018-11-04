@@ -23,6 +23,7 @@ Start the `robot_status_node`:
 ```shell
 roslaunch custom_message robot_status.launch [robot_id:=<int value> durability_level:=<string value>]
 ```
+`Note!` Source `devel/setup.bash` after messages are generated, otherwise ROS will not be able to see them.
 
 ## Tests
 

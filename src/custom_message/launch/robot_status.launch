@@ -1,0 +1,12 @@
+<launch>
+	<!-- robot durability level: 'high', 'average', or 'low' -->
+	<arg name="durability_level" default="average"/>
+
+	<arg name="robot_id" default="1"/>
+
+	<node name="lovely_robot" pkg="custom_message" type="robot_status_node">
+		<param name="durability_level" type="string" value="$(arg durability_level)"/>
+		<param name="robot_id" type="int" value="$(arg robot_id)"/>
+	</node>
+	
+</launch>

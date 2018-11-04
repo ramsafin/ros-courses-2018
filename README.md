@@ -62,6 +62,6 @@ rostest <package_name> <launch file.test>
 
 ## Contribution
 
-This repo is only for educational purposes. You can fork it in order to make changes.
+This repo is only for educational purposes.
 
-However, bug reports and enhancement proposals are welcomed.
+Bug reports and enhancement proposals are highly welcomed.

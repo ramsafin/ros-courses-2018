@@ -4,7 +4,7 @@ This package intends to control the turtle provided by the `turtlesim` package.
 
 ## Parameters
 
-| Parameter     | Description   |    Optional   |  Default value (Hz) |
+| Parameter     | Description   |    Optional   |  Default value |
 | ------------- | ------------- | ------------- | -------------- |
 | `moving_pattern` | how turtle will move | yes | `forward_turn` |
 

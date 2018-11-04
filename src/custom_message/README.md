@@ -17,7 +17,7 @@ To build this package:
 catkin_make --pkg custom_message
 source devel/setup.sh
 ```
-After this step `RobotStatus` message will be generated under `/devel/include/custom_message` folder (`RobotStatus.h`).
+After this step `RobotStatus` message will be generated under `~catkin_ws/devel/include/custom_message` folder (`RobotStatus.h`).
 
 Start the `robot_status_node`:
 ```shell

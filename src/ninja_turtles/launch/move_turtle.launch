@@ -1,0 +1,12 @@
+<launch>
+	<!-- turtle's moving pattern: 'forward_turn' -->
+	<arg name="moving_pattern" default="forward_turn"/>
+
+	<!-- turtlesim_node (subscribes for 'turtle1/cmd_vel' and publishes to 'turtle1/pose') -->
+	<node name="turtlesim_node" pkg="turtlesim" type="turtlesim_node"/>
+
+	<!-- move_turtle_node (publishes to 'turtle1/cmd_vel' and subscribes to 'turtle1/pose') -->
+	<node name="move_turtle" pkg="ninja_turtles" type="move_turtle_node">
+		<param name="moving_pattern" type="string" value="$(arg moving_pattern)"/>
+	</node>
+</launch>

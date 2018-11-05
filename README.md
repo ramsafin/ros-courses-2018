@@ -9,7 +9,7 @@ The most preferred way of getting started is to create a catkin workspace and cl
 mkdir ~/catkin_ws
 
 # workspace will be located at ~/catkin_ws
-git clone <repo_url> ~/catkin_ws
+git clone https://github.com/chupakabra1996/ros-courses-2018.git ~/catkin_ws
 ```
 
 ### Requirements

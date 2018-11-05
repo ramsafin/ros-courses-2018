@@ -66,4 +66,4 @@ rostest <package_name> <launch file.test>
 
 This repo is only for educational purposes.
 
-Bug reports and enhancement proposals are highly welcomed.
+Bug reports and enhancement proposals are welcomed.

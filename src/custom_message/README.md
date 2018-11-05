@@ -5,10 +5,10 @@ messages to the `/status` topic.
 
 ## Parameters
 
-| Parameter     | Description   |    Optional   |  Default value | Type |
-| ------------- | ------------- | ------------- | -------------- | ----- |
-| `durability_level`   | robot's durability level | Yes | average | string|
-| `robot_id`   | robot's identification number| Yes | 1 | int|
+| Parameter     | Description   |    Optional   |  Default value | Type | Values |
+| ------------- | ------------- | ------------- | -------------- | ----- | ------------- |
+| `durability_level`   | robot's durability level | Yes | average | string| low, average, high |
+| `robot_id`   | robot's identification number| Yes | 1 | int| - |
 
 ## Build & Run
 
@@ -17,13 +17,19 @@ To build this package:
 catkin_make --pkg custom_message
 source devel/setup.sh
 ```
-After this step `RobotStatus` message will be generated under `~catkin_ws/devel/include/custom_message` folder (`RobotStatus.h`).
+After this step `RobotStatus.h` message will be generated under `~catkin_ws/devel/include/custom_message` folder.
 
 Start the `robot_status_node`:
 ```shell
 roslaunch custom_message robot_status.launch [robot_id:=<int value> durability_level:=<string value>]
 ```
 `Note!` Source `devel/setup.bash` after messages are generated, otherwise ROS will not be able to see them.
+
+Listen to the `status` topic:
+```shell
+rostopic echo /status
+```
+By default the robot's status will change from `is_ok: true` to `is_ok: false` in 45 seconds (for average durability).
 
 ## Tests
 

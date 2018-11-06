@@ -141,7 +141,7 @@ class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
         }
       } else {  // turn 45 degrees
         if (!is_near(pose->theta, TURN_RADIANS)) {
-          nextMove.angular.z = 0.1;
+          nextMove.angular.z = 0.02;
         } else {
           ROS_INFO("Stop turning x: %.6f, y: %.6f, theta: %.6f", pose->x, pose->y, pose->theta);
           ros::requestShutdown();

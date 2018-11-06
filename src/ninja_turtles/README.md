@@ -57,4 +57,4 @@ rosrun turtlesim turtle_teleop_key
 ## Resources
 - [How to make subscriber callback function?](https://answers.ros.org/question/63991/how-to-make-callback-function-called-by-several-subscriber/?answer=63998#post-id-63998)
 - [Turtlesim ROS package official wiki](http://wiki.ros.org/turtlesim)
-- [ROS best practices git porject](https://github.com/leggedrobotics/ros_best_practices)
+- [ROS best practices git project](https://github.com/leggedrobotics/ros_best_practices)

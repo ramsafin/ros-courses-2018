@@ -180,7 +180,7 @@ int main(int argc, char **argv) {
     if (movingPattern == "forward_turn") {
       behavior.reset(new MoveTurtleForwardAndTurn{nodeHandle});
     } else {
-      ROS_ERROR_STREAM("Requested moving pattern does not supported: " << movingPattern);
+      ROS_ERROR_STREAM("Requested moving pattern is not supported: " << movingPattern);
       ros::requestShutdown();
     }
 

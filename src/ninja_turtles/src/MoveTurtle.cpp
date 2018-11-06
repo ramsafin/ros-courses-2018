@@ -117,7 +117,7 @@ class MoveTurtleBehaviour {
 
     ros::NodeHandle& nodeHandle_;
     ros::Subscriber subscriber_;  // subscribes to the 'turtle1/pose'
-    ros::Publisher publisher_;  // published to the 'turtle1/cmd_vel
+    ros::Publisher publisher_;  // publishes to the 'turtle1/cmd_vel
 };
 
 class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {

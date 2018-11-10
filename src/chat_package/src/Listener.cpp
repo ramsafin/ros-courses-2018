@@ -27,28 +27,16 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 
-/**
- * @brief Callback function.
- * 
- * Acts as a hadnler method for new messages
- * coming from the topic one subscribed.
- * 
- * @param msg - standard ROS message representing a string. 
- */
 void talkerCallback(const std_msgs::String::ConstPtr& msg) {
 	ROS_INFO("<= I heard: [%s]", msg->data.c_str());
 }
 
 int main(int argc, char ** argv) {
-
-	// init the 'listener' node
 	ros::init(argc, argv, "listener");
 
-	ros::NodeHandle node;
+	ros::NodeHandle nh;
 
-	// subscribe to the '/chat' topic (message queue size: 50)
-	// additionally we can define a callback function for every incoming message
-	ros::Subscriber sub = node.subscribe("chat", 50, talkerCallback);
+	ros::Subscriber sub = nh.subscribe("chat", 50, talkerCallback);
 
 	ros::spin(); // will not return (blocking)
 

@@ -31,49 +31,41 @@
 static constexpr int FREQUENCY_HZ = 1;
 
 int main(int argc, char ** argv) {
-
-  // init the 'talker' node
   ros::init(argc, argv, "talker");
 
-  ros::NodeHandle node;
-  ros::NodeHandle nh_("~");  // node handle to obtain local parameters
+  ros::NodeHandle nh;
+  ros::NodeHandle nh_("~");  // to obtain local parameters
 
   int frequency;
   nh_.param<int>("frequency", frequency, FREQUENCY_HZ);
 
   ROS_INFO_STREAM("talker node has started with " << frequency << "Hz frequency");
 
-  // create a topic '/chat' where messages will be published
-  // the 2nd parameter defines the outoging messages queue size 
-  ros::Publisher chat_pub = node.advertise<std_msgs::String>("chat", 25);
+  // create a topic '/chat' for std_msgs::String
+  ros::Publisher publisher = nh.advertise<std_msgs::String>("chat", 25);
 
   ros::Rate loop_rate(frequency);
 
-  // used to count message id (number of messages)
-  int count = 0;
+  int messageId = 0;
 
-  while (ros::ok()) {
-
-    // check if there is at least one subscriber to the '/chat'
-    if (chat_pub.getNumSubscribers() > 0) {
+  while (nh.ok()) {
+    if (publisher.getNumSubscribers() > 0) {
 
       std_msgs::String msg;
 
-      msg.data = std::to_string(count) + std::string(" - How's it going?");
+      msg.data = std::to_string(messageId) + std::string(" - How's it going?");
 
       ROS_INFO("[%s] => %s", ros::this_node::getName().c_str(), msg.data.c_str());
 
       // publish the message
-      chat_pub.publish(msg);
+      publisher.publish(msg);
 
-      ++count;
+      ++messageId;
     }
 
     // take time to process callbacks
     ros::spinOnce();
-
-    // sleep for a necessary amount of time,
-    // so the frequency of publishing is not less than 1 Hz
+    
     loop_rate.sleep();
   }
 

@@ -3,7 +3,6 @@
 
 #include "custom_message/RobotStatus.h"
 
-/* constants */
 static constexpr auto STATUS_PUBLISHING_RATE = 1;
 
 static constexpr auto HIGH_DURABILITY_LEVEL_SEC = 60;
@@ -17,13 +16,14 @@ int main(int argc, char ** argv) {
     ros::NodeHandle node_("~");
 
     // read parameters
+    
     int robotId;
     std::string durabilityLevel;  // high, average, low
 
     node_.param("robot_id", robotId, -1);
     node_.param("durability_level", durabilityLevel, std::string{"average"});
 
-    auto pub = node.advertise<custom_message::RobotStatus>("status", 5);
+    auto publisher = node.advertise<custom_message::RobotStatus>("status", 5);
 
     custom_message::RobotStatus statusMsg;
     statusMsg.robot_id = robotId;
@@ -44,8 +44,7 @@ int main(int argc, char ** argv) {
         secondsTillDeath = LOW_DURABILITY_LEVEL_SEC;
     }
 
-    while (ros::ok()) {
-      // update time and robot's status
+    while (node.ok()) {
       statusMsg.header.stamp = ros::Time::now();
       
       if ((statusMsg.header.stamp - startTime).toSec() > secondsTillDeath) {
@@ -54,7 +53,7 @@ int main(int argc, char ** argv) {
         statusMsg.is_ok = true;
       }
 
-      pub.publish(statusMsg);
+      publisher.publish(statusMsg);
       rate.sleep();
     }
 

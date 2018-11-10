@@ -32,28 +32,22 @@
 #include <turtlesim/Pose.h>
 #include <geometry_msgs/Twist.h>
 
-/* constants */
-static auto const DEFAULT_MOVING_PATTERN = std::string{"forward_turn"};
+static auto const DEFAULT_TURTLE_MOVING_PATTERN = std::string{"forward_turn"};
 
-// measurements accuracy
 static constexpr auto EPS = 10E-3;
 
-// PI constants
 static constexpr auto PI = M_PI;
 static constexpr auto PI_2 = M_PI_2;
 static constexpr auto PI_4 = M_PI_4;
 
-// checks if the given values are close to each other
 bool is_near(double value, double otherValue) {
   return std::abs(value - otherValue) < EPS;
 }
 
-// checks if the given value is in the specified range
 bool is_in_range(double value, double start, double end) {
   return value >= start && value <= end;
 }
 
-// possible orientations of the turtle (see turtlesim Pose)
 enum class TurtleOrientation : uint8_t {
   NORTH,
   SOUTH,
@@ -65,8 +59,7 @@ enum class TurtleOrientation : uint8_t {
   SOUTH_WEST
 };
 
-// finds the turtle's orientation given its pose
-TurtleOrientation find_orientation(turtlesim::PoseConstPtr const &pose) {
+TurtleOrientation find_orientation_by(turtlesim::PoseConstPtr const &pose) {
   if (is_in_range(pose->theta, 0, PI_2) || is_in_range(pose->theta, -2 * PI, -PI - PI_2)) {
     // 1st quarter
     if (is_near(pose->theta, 0) || is_near(pose->theta, -2 * PI)) return TurtleOrientation::EAST;
@@ -90,16 +83,13 @@ TurtleOrientation find_orientation(turtlesim::PoseConstPtr const &pose) {
   }
 }
 
-// abstract class for turtle's movement control
 class MoveTurtleBehaviour {
   public:
     virtual ~MoveTurtleBehaviour() = default;
 
     MoveTurtleBehaviour(ros::NodeHandle& nodeHandle) : nodeHandle_(nodeHandle) {
-      // create a publisher to the 'turtle1/cmd_vel' topic 
       publisher_ = nodeHandle.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 1);
 
-      // create a subscriber to the 'turtle1/pose' topic
       subscriber_ = nodeHandle.subscribe("turtle1/pose", 1,
                                    &MoveTurtleBehaviour::OnMessageCallback, this);
 
@@ -110,14 +100,13 @@ class MoveTurtleBehaviour {
     virtual void Move(turtlesim::PoseConstPtr pose, ros::Publisher& pub) = 0;
 
   private:
-    // handles turtle's next move by forwarding its pose to specific Move implementation
     void OnMessageCallback(const turtlesim::PoseConstPtr& pose) {
       Move(pose, publisher_);
     }
 
     ros::NodeHandle& nodeHandle_;
-    ros::Subscriber subscriber_;  // subscribes to the 'turtle1/pose'
-    ros::Publisher publisher_;  // publishes to the 'turtle1/cmd_vel
+    ros::Subscriber subscriber_;
+    ros::Publisher publisher_;
 };
 
 class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
@@ -132,7 +121,8 @@ class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
       if (!initialPose_) {  // we just get started
         initialPose_ = pose;
         ROS_INFO("Initial position x: %.6f y: %.6f", initialPose_->x, initialPose_->y);
-      } else if (moveForward) {  // move forward
+      } else if (moveForward) {
+        // move fwd for 1 meter
         if (!is_near(std::abs(initialPose_->x - pose->x), FORWARD_DISTANCE_M) ) {
           nextMove.linear.x = 0.1;
         } else {
@@ -152,14 +142,11 @@ class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
     }
 
   private:
-    turtlesim::PoseConstPtr initialPose_;
-
-    // whether to move forward or not
-    bool moveForward;
-
-    /* constants */
     static constexpr auto FORWARD_DISTANCE_M = 1.0;
     static constexpr auto TURN_RADIANS = PI_4;
+  
+    turtlesim::PoseConstPtr initialPose_;
+    bool moveForward;
 };
 
 int main(int argc, char **argv) {
@@ -171,7 +158,7 @@ int main(int argc, char **argv) {
     // parse node parameters
 
     std::string movingPattern;
-    nodeHandle_.param("moving_pattern", movingPattern, DEFAULT_MOVING_PATTERN);
+    nodeHandle_.param("moving_pattern", movingPattern, DEFAULT_TURTLE_MOVING_PATTERN);
 
     // control the movement of the turtle
 

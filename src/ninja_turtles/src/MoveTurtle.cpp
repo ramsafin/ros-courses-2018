@@ -91,7 +91,7 @@ class MoveTurtleBehaviour {
       publisher_ = nodeHandle.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 1);
 
       subscriber_ = nodeHandle.subscribe("turtle1/pose", 1,
-                                   &MoveTurtleBehaviour::OnMessageCallback, this);
+                                   &MoveTurtleBehaviour::OnPoseMessageCallback, this);
 
       ROS_INFO("Sucessfully launched node!");
     }
@@ -100,7 +100,7 @@ class MoveTurtleBehaviour {
     virtual void Move(turtlesim::PoseConstPtr pose, ros::Publisher& pub) = 0;
 
   private:
-    void OnMessageCallback(const turtlesim::PoseConstPtr& pose) {
+    void OnPoseMessageCallback(turtlesim::PoseConstPtr const &pose) {
       Move(pose, publisher_);
     }
 
@@ -112,7 +112,7 @@ class MoveTurtleBehaviour {
 class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
   public:
     MoveTurtleForwardAndTurn(ros::NodeHandle &nodeHandle) 
-                  : MoveTurtleBehaviour(nodeHandle), moveForward(true) {}
+                  : MoveTurtleBehaviour(nodeHandle), moveForward_(true) {}
 
     // moves turtle forward and then turns for 45 degrees counter-clockwise
     void Move(turtlesim::PoseConstPtr pose, ros::Publisher& pub) override {
@@ -121,13 +121,13 @@ class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
       if (!initialPose_) {  // we just get started
         initialPose_ = pose;
         ROS_INFO("Initial position x: %.6f y: %.6f", initialPose_->x, initialPose_->y);
-      } else if (moveForward) {
+      } else if (moveForward_) {
         // move fwd for 1 meter
         if (!is_near(std::abs(initialPose_->x - pose->x), FORWARD_DISTANCE_M) ) {
           nextMove.linear.x = 0.1;
         } else {
           ROS_INFO("Stop moving forward x: %.6f, y: %.6f", pose->x, pose->y);
-          moveForward = false;
+          moveForward_ = false;
         }
       } else {  // turn 45 degrees
         if (!is_near(pose->theta, TURN_RADIANS)) {
@@ -146,7 +146,7 @@ class MoveTurtleForwardAndTurn final : public MoveTurtleBehaviour {
     static constexpr auto TURN_RADIANS = PI_4;
   
     turtlesim::PoseConstPtr initialPose_;
-    bool moveForward;
+    bool moveForward_;
 };
 
 int main(int argc, char **argv) {

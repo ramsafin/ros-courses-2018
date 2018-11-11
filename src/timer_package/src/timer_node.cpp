@@ -28,25 +28,24 @@
 #include <ros/time.h>
 #include <cstdlib>
 
-static constexpr int FREQUENCY_HZ = 2;
+static constexpr auto DEFAULT_FREQUENCY_HZ = 2;
 
 int main(int argc, char **argv) {
-
   ros::init(argc, argv, "timer_node");
 
   ros::NodeHandle nodeHandle;
   ros::NodeHandle nodeHandle_("~");
 
   int frequency;
-  nodeHandle_.param<int>("frequency", frequency, FREQUENCY_HZ);
+  nodeHandle_.param<int>("frequency", frequency, DEFAULT_FREQUENCY_HZ);
 
   ROS_INFO_STREAM("timer_node has started with " << frequency << "Hz frequency");
 
   ros::Rate loop_rate(frequency);
 
   while (ros::ok()) {
-
-    ROS_WARN_STREAM(ros::Time::now()); // prints to /rosout
+    // prints to /rosout
+    ROS_WARN_STREAM(ros::Time::now());
 
     ros::spinOnce();
 

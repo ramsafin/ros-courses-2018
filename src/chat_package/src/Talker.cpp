@@ -28,7 +28,7 @@
 #include <std_msgs/String.h>
 #include <string>
 
-static constexpr int FREQUENCY_HZ = 1;
+static constexpr auto DEFAULT_FREQUENCY_HZ = 1;
 
 int main(int argc, char ** argv) {
   ros::init(argc, argv, "talker");
@@ -37,7 +37,7 @@ int main(int argc, char ** argv) {
   ros::NodeHandle nh_("~");  // to obtain local parameters
 
   int frequency;
-  nh_.param<int>("frequency", frequency, FREQUENCY_HZ);
+  nh_.param<int>("frequency", frequency, DEFAULT_FREQUENCY_HZ);
 
   ROS_INFO_STREAM("talker node has started with " << frequency << "Hz frequency");
 

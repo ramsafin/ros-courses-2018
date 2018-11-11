@@ -8,5 +8,4 @@
 		<param name="durability_level" type="string" value="$(arg durability_level)"/>
 		<param name="robot_id" type="int" value="$(arg robot_id)"/>
 	</node>
-	
 </launch>

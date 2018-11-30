@@ -112,8 +112,8 @@ bool ForwardRotateExplorer::isObstacleInFront(const sensor_msgs::LaserScan::Cons
 	for (auto currIndex = 0; currIndex <= maxScanIndex; ++currIndex) {
 		if (isInRange(scan->ranges[currIndex], scan->range_min, scan->range_max)) {
 			if (scan->ranges[currIndex] < MIN_DIST_FROM_OBSTACLE) {
-	    		return true;
-	    	}
+	    			return true;
+	    		}
 		}
 	}
 

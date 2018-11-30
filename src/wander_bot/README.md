@@ -4,10 +4,9 @@ ROS and Gazebo integration demo.
 
 This package contains two nodes (`stopper` and `forward_rotate_explorer`) which control the __turtlebot__ mobile robot.
 
-The firs node, `stopper`, moves the __turtlebot__ forward (along X-axis) and stops when the laser scan (`/scan` topic) signifies
-that there is an obstacle in front of the robot (laser scanner's active range is about 60 degrees).
+The first node, `stopper`, moves the __turtlebot__ forward (along X-axis) and stops when the laser scan (`/scan` topic) signifies that there is an obstacle in front of the robot (laser scanner's active range is about 60 degrees).
 
-The other node, `forward_rotate_explorer`, moves the robot forward, in case if there is an obstacle in front it rotates 
+The other node, `forward_rotate_explorer`, moves the robot forward; in case if there is an obstacle in front it rotates 
 to a space that is more free from obstacles and continues to move forward.
 
 ## Build & Run

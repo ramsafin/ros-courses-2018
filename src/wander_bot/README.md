@@ -39,9 +39,22 @@ rostopic echo /scan -n1
 ```
 Start the __turtlebot__ teleoperation node:
 ```shell
+# if turtlebot has not been launched in gazebo yet
+roslaunch turtlebot_gazebo turtlebot_world.launch
+
 roslaunch turtlebot_teleop keyboard_teleop.launch
 ```
+
+Start gmapping SLAM algorihm:
+```shell
+rosrun gmapping slam_gmapping
+```
+
 Visualize lots of interesting sensory data in rviz:
 ```shell
 roslaunch turtlebot_rviz_launchers view_robot.launch
 ```
+
+<p align="center">
+  <img src="images/turtlebot in rviz.png"></img>
+</p>

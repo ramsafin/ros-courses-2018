@@ -69,8 +69,8 @@ RotationSide ForwardRotateExplorer::findFreeSpaceRotationSide(const sensor_msgs:
 
 	// compute and compare halves densities
 
-	auto filteredSum = [&](float sum, float range) {
-                         return isInRange(range, scan->range_min, scan->range_max)? sum + range : sum;
+	auto filteredSum = [&](float sum, float measuredRange) {
+                         return isInRange(measuredRange, scan->range_min, scan->range_max)? sum + measuredRange : sum;
                        };
 
     auto rigthSideSum = std::accumulate(std::begin(scan->ranges), std::begin(scan->ranges) + int(maxIndex / 2), 0, filteredSum);

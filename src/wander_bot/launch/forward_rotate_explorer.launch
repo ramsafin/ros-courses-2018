@@ -5,5 +5,5 @@
     <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch"/>
 
     <!-- Launch stopper node -->
-    <node name="fwd_rot_explorer" pkg="wander_bot" type="fwd_rot_explorer" output="screen"/>
+    <node name="forward_rotate_explorer" pkg="wander_bot" type="forward_rotate_explorer"/>
 </launch>

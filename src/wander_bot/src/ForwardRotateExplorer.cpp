@@ -48,82 +48,74 @@ void ForwardRotateExplorer::startMoving() {
 
 void ForwardRotateExplorer::moveForward() {
 	geometry_msgs::Twist msg;
-	
-	ROS_INFO("Move forward");
-
 	msg.linear.x = FORWARD_SPEED;
-	commandPub.publish(msg);
-}
-
-void ForwardRotateExplorer::rotateCounterClockwise() {
-	geometry_msgs::Twist msg;
-	msg.angular.z = ROTATE_SPEED;
 	commandPub.publish(msg);
 }
 
 void ForwardRotateExplorer::rotateToFreeSpace() {
 	geometry_msgs::Twist msg;
-
-	ROS_INFO("Rotate to free space");
-
-	if (rotationSide_ == LEFT_SIDE) {
-		msg.angular.z = ROTATE_SPEED;
+	
+	if (rotationSide_ == RotationSide::LEFT) {
+		msg.angular.z = ANGULAR_SPEED;
 	} else {
-		msg.angular.z = -ROTATE_SPEED;
+		msg.angular.z = -ANGULAR_SPEED;
 	}
 
 	commandPub.publish(msg);
 }
 
-int ForwardRotateExplorer::findFreeSpace(const sensor_msgs::LaserScan::ConstPtr& scan) {
+RotationSide ForwardRotateExplorer::findFreeSpaceRotationSide(const sensor_msgs::LaserScan::ConstPtr& scan) {
 	int maxIndex = floor((scan->angle_max - scan->angle_min) / scan->angle_increment);
 
 	// compute and compare halves densities
 
-	auto filteredSum = [&scan](float sum, float range) {
-                         return range <= scan->range_max && range >= scan->range_min? sum + range : sum;
+	auto filteredSum = [&](float sum, float range) {
+                         return isInRange(range, scan->range_min, scan->range_max)? sum + range : sum;
                        };
 
     auto rigthSideSum = std::accumulate(std::begin(scan->ranges), std::begin(scan->ranges) + int(maxIndex / 2), 0, filteredSum);
     auto leftSideSum = std::accumulate(std::begin(scan->ranges) + int(maxIndex / 2), std::end(scan->ranges), 0, filteredSum);
 
-    // all measurements are NaN or Infinity
+    // In case if all measurements are NaN or Infinity or any garbage values
     if (leftSideSum == 0 || rigthSideSum == 0) {
-    	return leftSideSum == 0 ? LEFT_SIDE : RIGHT_SIDE;
+    	return leftSideSum == 0 ? RotationSide::LEFT : RotationSide::RIGHT;
     }
 
     ROS_INFO("Left: %d, Right: %d", leftSideSum, rigthSideSum);
 
-    return rigthSideSum > leftSideSum ? RIGHT_SIDE : LEFT_SIDE;
+    return rigthSideSum > leftSideSum ? RotationSide::RIGHT : RotationSide::LEFT;
 }
-
 
 void ForwardRotateExplorer::onLaserScanData(const sensor_msgs::LaserScan::ConstPtr& scan) {
 	if (isObstacleInFront(scan)) {
 		if (!isRotating_) {
 			isRotating_ = true;
-			rotationSide_ = findFreeSpace(scan);
+			rotationSide_ = findFreeSpaceRotationSide(scan);
 		}
 
 		rotateToFreeSpace();
 
-		// rotateCounterClockwise();
-		
 	} else {
-		isRotating_ = false;  // reset flag
+		isRotating_ = false;
 		moveForward();
 	}
 }
 
-bool ForwardRotateExplorer::isObstacleInFront(const sensor_msgs::LaserScan::ConstPtr& scan) {
-	// Find the closest range between the defined minimum and maximum angles
-	int minIndex = ceil((MIN_SCAN_ANGLE - scan->angle_min) / scan->angle_increment);
-	int maxIndex = floor((MAX_SCAN_ANGLE - scan->angle_min) / scan->angle_increment);
+bool ForwardRotateExplorer::isInRange(float value, float min, float max) {
+	return value <= max && value >= min;
+}
 
-	for (auto currIndex = minIndex + 1; currIndex <= maxIndex; ++currIndex) {
-	    if (scan->ranges[currIndex] < MIN_DIST_FROM_OBSTACLE) {
-	    	return true;
-	    }
+bool ForwardRotateExplorer::isObstacleInFront(const sensor_msgs::LaserScan::ConstPtr& scan) {
+	// Check for obstacles in front of the robot
+	int maxScanIndex = floor((scan->angle_max - scan->angle_min) / scan->angle_increment);
+
+	for (auto currIndex = 0; currIndex <= maxScanIndex; ++currIndex) {
+		if (isInRange(scan->ranges[currIndex], scan->range_min, scan->range_max)) {
+			if (scan->ranges[currIndex] < MIN_DIST_FROM_OBSTACLE) {
+	    		return true;
+	    	}
+		}
 	}
+
 	return false;
 }

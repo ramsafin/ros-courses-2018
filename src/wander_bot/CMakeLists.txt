@@ -135,7 +135,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(stopper src/Stopper.cpp src/StopperNode.cpp)
 
-add_executable(fwd_rot_explorer src/ForwardRotateExplorer.cpp src/ForwardRotateNode.cpp)
+add_executable(forward_rotate_explorer src/ForwardRotateExplorer.cpp src/ForwardRotateNode.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,7 +152,7 @@ target_link_libraries(stopper
    ${catkin_LIBRARIES}
 )
 
-target_link_libraries(fwd_rot_explorer
+target_link_libraries(forward_rotate_explorer
 	${catkin_LIBRARIES}
 )
 

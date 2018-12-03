@@ -1,9 +1,7 @@
 <launch>
     <param name="/use_sim_time" value="true" />
 
-    <!-- Launch turtle bot world -->
     <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch"/>
 
-    <!-- Launch stopper node -->
     <node name="forward_rotate_explorer" pkg="wander_bot" type="forward_rotate_explorer"/>
 </launch>

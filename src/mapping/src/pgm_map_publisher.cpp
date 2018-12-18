@@ -35,26 +35,26 @@
 static const std::string PGM_FILE_PATH = "/opt/ros/kinetic/share/turtlebot_gazebo/maps/playground.pgm";
 
 int main(int argc, char** argv) {
-    ros::init(argc, argv, "pgm_map_publisher");
+  ros::init(argc, argv, "pgm_map_publisher");
 
-    ros::NodeHandle nh;
+  ros::NodeHandle nh;
 
-    auto pgm = Pgm::loadFrom(PGM_FILE_PATH);
+  auto pgm = Pgm::loadFrom(PGM_FILE_PATH);
 
-    auto pub = nh.advertise<nav_msgs::OccupancyGrid>("map", 2, true);
+  auto pub = nh.advertise<nav_msgs::OccupancyGrid>("map", 2, true);
 
-    PgmOccupancyConverter converter {0.9, 0.2};  // define occupied and free thresholds in [0..1]
+  PgmOccupancyConverter converter {0.9, 0.2};  // define occupied and free thresholds in [0..1]
 
-    auto occupancyGrid = converter.convert(pgm);
+  auto occupancyGrid = converter.convert(pgm);
 
-    ros::Rate loopRate(1);
+  ros::Rate loopRate(1);
 
-    while(nh.ok()) {            
-        pub.publish(occupancyGrid);
+  while(nh.ok()) {            
+    pub.publish(occupancyGrid);
 
-        ros::spinOnce();
-        loopRate.sleep();
-    }
+    ros::spinOnce();
+    loopRate.sleep();
+  }
 
-    return 0;
+  return 0;
 }

@@ -5,3 +5,4 @@
 - Turtle control, publishers and subscribers, `turtlesim` package ([`ninja_turtles`](ninja_turtles))
 - Creating custom ROS messages ([`custom_message`](custom_message))
 - Gazebo turtlebot simulation ([`wander_bot`](wander_bot))
+- PGM and Occupancy Grid Mapping ([`mapping`](mapping))

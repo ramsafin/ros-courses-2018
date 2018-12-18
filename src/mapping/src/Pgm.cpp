@@ -35,31 +35,31 @@ Pgm Pgm::loadFrom(std::string const & path) {
 
   assert(file);
 
-	std::string line;
-	std::getline(file, line); // version: P5
-	std::getline(file, line); // comment
+  std::string line;
+  std::getline(file, line); // version: P5
+  std::getline(file, line); // comment
 
-	std::stringstream ss;
-	ss << file.rdbuf();
+  std::stringstream ss;
+  ss << file.rdbuf();
 
-	int width, height, gray;
-	ss >> width >> height >> gray;
+  int width, height, gray;
+  ss >> width >> height >> gray;
 
-	Pgm pgm{width, height, gray};
+  Pgm pgm{width, height, gray};
 
-	for (int rowIdx = 0; rowIdx < height; ++rowIdx) {
-		for (int columnIdx = 0; columnIdx < width; ++columnIdx) {
-			ss >> pgm[rowIdx][columnIdx];
-		}
-	}
-
-	return pgm;
+  for (int rowIdx = 0; rowIdx < height; ++rowIdx) {
+    for (int columnIdx = 0; columnIdx < width; ++columnIdx) {
+	    ss >> pgm[rowIdx][columnIdx];
+    }
+  }
+  
+  return pgm;
 }
 
 Pgm::Pgm(int w, int h, int gray) : width_{w}, height_{h}, gray_{gray} {
-	data_.resize(height_);
-	
-	for (auto& row : data_) {
-		row.reserve(width_);
-	}
+  data_.resize(height_);
+ 
+  for (auto& row : data_) {
+    row.reserve(width_);
+  }
 }

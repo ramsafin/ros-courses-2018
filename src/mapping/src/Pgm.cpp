@@ -31,9 +31,9 @@
 #include "mapping/Pgm.hpp"
 
 Pgm Pgm::loadFrom(std::string const & path) {
-	std::ifstream file{path, std::ios::binary};
+  std::ifstream file{path, std::ios::binary};
 
-	assert(file);
+  assert(file);
 
 	std::string line;
 	std::getline(file, line); // version: P5

@@ -49,7 +49,7 @@ Pgm Pgm::loadFrom(std::string const & path) {
 
   for (int rowIdx = 0; rowIdx < height; ++rowIdx) {
     for (int columnIdx = 0; columnIdx < width; ++columnIdx) {
-	    ss >> pgm[rowIdx][columnIdx];
+      ss >> pgm[rowIdx][columnIdx];
     }
   }
   

@@ -27,33 +27,33 @@
 #include "mapping/PgmOccupancyConverter.hpp"
 
 PgmOccupancyConverter::PgmOccupancyConverter(double occupiedThreshold, double freeThreshold)
-						: occupiedThreshold_{occupiedThreshold}, freeThreshold_{freeThreshold} {}
+                       : occupiedThreshold_{occupiedThreshold}, freeThreshold_{freeThreshold} {}
 
 nav_msgs::OccupancyGrid PgmOccupancyConverter::convert(Pgm &pgm) const {
-	nav_msgs::OccupancyGrid grid;
+  nav_msgs::OccupancyGrid grid;
+  
+  grid.data.reserve(pgm.height() * pgm.width());
+  
+  for (int i = 0; i < pgm.height(); ++i) {
+    for (int j = 0; j < pgm.width(); ++j) {
+      // NOTE: row-major order
+      grid.data.push_back(computeProbability(pgm[i][j]));
+    }
+  }
 
-	grid.data.reserve(pgm.height() * pgm.width());
+  // FIXME (Ramil Safin): Add origin pose and timestamp.
+  grid.info.resolution = 0.05;
+  grid.info.width = pgm.width();
+  grid.info.height = pgm.height();
+  grid.header.frame_id = "map";
 
-	for (int i = 0; i < pgm.height(); ++i) {
-		for (int j = 0; j < pgm.width(); ++j) {
-			// NOTE: row-major order
-			grid.data.push_back(computeProbability(pgm[i][j]));
-		}
-	}
-
-	// FIXME (Ramil Safin): Add origin pose and timestamp.
-	grid.info.resolution = 0.05;
-	grid.info.width = pgm.width();
-	grid.info.height = pgm.height();
-	grid.header.frame_id = "map";
-
-	return grid;
+  return grid;
 }
 
 // see http://wiki.ros.org/map_server (#Value Interpretation)
 double PgmOccupancyConverter::computeProbability(uint8_t pixelValue) const {
-	double p = (255 - pixelValue) / (double) pixelValue;
-	if (p > occupiedThreshold_) return 100.0;
-	if (p < freeThreshold_) return 0.0;
-	return 99 * (p - freeThreshold_) / (occupiedThreshold_ - freeThreshold_);
+  double p = (255 - pixelValue) / (double) pixelValue;
+  if (p > occupiedThreshold_) return 100.0;
+  if (p < freeThreshold_) return 0.0;
+  return 99 * (p - freeThreshold_) / (occupiedThreshold_ - freeThreshold_);
 }

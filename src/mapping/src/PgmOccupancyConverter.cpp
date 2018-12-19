@@ -26,8 +26,8 @@
 
 #include "mapping/PgmOccupancyConverter.hpp"
 
-PgmOccupancyConverter::PgmOccupancyConverter(double occupiedThreshold, double freeThreshold)
-						: occupiedThreshold_{occupiedThreshold}, freeThreshold_{freeThreshold} {}
+PgmOccupancyConverter::PgmOccupancyConverter(double occupiedThreshold, double freeThreshold, double mapResolution)
+			: occupiedThreshold_{occupiedThreshold}, freeThreshold_{freeThreshold}, mapResolution_{mapResolution} {}
 
 nav_msgs::OccupancyGrid PgmOccupancyConverter::convert(Pgm &pgm) const {
 	nav_msgs::OccupancyGrid grid;
@@ -42,10 +42,13 @@ nav_msgs::OccupancyGrid PgmOccupancyConverter::convert(Pgm &pgm) const {
 	}
 
 	// FIXME (Ramil Safin): Add origin pose and timestamp.
-	grid.info.resolution = 0.05;
+	grid.info.resolution = mapResolution_;
 	grid.info.width = pgm.width();
 	grid.info.height = pgm.height();
 	grid.header.frame_id = "map";
+	grid.info.origin.position.x = -6.899;
+	grid.info.origin.position.y = -5.899;
+	grid.info.origin.position.z = 0.0;
 
 	return grid;
 }

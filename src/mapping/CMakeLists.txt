@@ -10,11 +10,12 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(OpenCV 3 REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -111,6 +112,7 @@ catkin_package()
 ## Your package locations should be listed before other locations
 include_directories(
   include
+  ${OpenCV_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -128,7 +130,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/mapping_node.cpp)
-add_executable(load_map src/pgm_map_publisher.cpp src/Pgm.cpp src/PgmOccupancyConverter.cpp)
+add_executable(pgm_map_publisher src/pgm_map_publisher.cpp src/Pgm.cpp src/PgmOccupancyConverter.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -141,7 +143,7 @@ add_executable(load_map src/pgm_map_publisher.cpp src/Pgm.cpp src/PgmOccupancyCo
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(load_map ${catkin_LIBRARIES})
+target_link_libraries(pgm_map_publisher ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 #############
 ## Install ##

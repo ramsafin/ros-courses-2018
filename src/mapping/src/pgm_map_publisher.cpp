@@ -27,27 +27,107 @@
 #include <ros/ros.h>
 #include <nav_msgs/OccupancyGrid.h>
 
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
 #include <string>
+#include <functional>
 
 #include "mapping/Pgm.hpp"
 #include "mapping/PgmOccupancyConverter.hpp"
 
 static const std::string PGM_FILE_PATH = "/opt/ros/kinetic/share/turtlebot_gazebo/maps/playground.pgm";
 
+using namespace std;
+
+int thresh = 254;
+int morph_elem = 0;
+int morph_size = 0;
+int morph_operator = 1;
+
+int occupiedThreshold = 0.65;
+int freeThreshold = 0.196;
+
+void trackbarStub( int, void*) {};
+
+// http://qaru.site/questions/162344/fill-the-holes-in-opencv
+void fillEdgeImage(cv::Mat edgesIn, cv::Mat& filledEdgesOut) {
+  using namespace cv;
+
+  Mat edgesNeg = edgesIn.clone();
+  floodFill(edgesNeg, Point(0,0), CV_RGB(255, 255, 255));
+  bitwise_not(edgesNeg, edgesNeg);
+  filledEdgesOut = (edgesNeg | edgesIn);
+}
+
+void fillTheGaps(cv::Mat &pgm) {
+  using namespace cv;
+
+  Mat src_thresh_bin, src_thresh_bin_morph, src_thresh_bin_morph_fill;
+
+  threshold(pgm, src_thresh_bin, thresh, 255, THRESH_BINARY_INV);
+
+  morphologyEx(src_thresh_bin, src_thresh_bin_morph, morph_operator, 
+      getStructuringElement(morph_elem, Size(1 * morph_size + 1, 1 * morph_size + 1),
+         Point(morph_size, morph_size)));
+
+  fillEdgeImage(src_thresh_bin_morph, src_thresh_bin_morph_fill);
+
+  for (int i = 0; i < pgm.rows; ++i) {
+    for (int j = 0; j < pgm.cols; ++j) {
+      if (src_thresh_bin_morph_fill.at<uint8_t>(Point(j, i)) == 255) {
+        pgm.at<uint8_t>(Point(j, i)) = 0;
+      }
+    }
+  }
+}
+
+// see http://wiki.ros.org/map_server (#Value Interpretation)
+double computeProbability(uint8_t pixelValue) {
+  double p = (255.0 - pixelValue) / pixelValue;
+  if (p > occupiedThreshold) return 100.0;
+  if (p < freeThreshold) return 0.0;
+  return 99 * (p - freeThreshold) / (occupiedThreshold - freeThreshold);
+}
+
+nav_msgs::OccupancyGrid createFrom(cv::Mat const& img) {
+  nav_msgs::OccupancyGrid grid;
+
+  grid.data.reserve(img.rows * img.cols);
+
+  for (int i = 0; i < img.rows; ++i) {
+    for (int j = 0; j < img.cols; ++j) {
+      grid.data.push_back(computeProbability(img.at<uint8_t>(cv::Point(j, i))));
+    }
+  }
+
+  // FIXME (Ramil Safin): Add origin pose and timestamp.
+  grid.info.resolution = 0.05;
+  grid.info.width = img.cols;
+  grid.info.height = img.rows;
+  grid.header.frame_id = "map";
+  grid.info.origin.position.x = -6.899;
+  grid.info.origin.position.y = -5.899;
+  grid.info.origin.position.z = 0.0;
+
+  return grid;
+}
+
 int main(int argc, char** argv) {
     ros::init(argc, argv, "pgm_map_publisher");
-
     ros::NodeHandle nh;
 
-    auto pgm = Pgm::loadFrom(PGM_FILE_PATH);
+    auto pgm = cv::imread("/home/ramilsafin/playground_1.pgm", cv::IMREAD_UNCHANGED);
 
-    auto pub = nh.advertise<nav_msgs::OccupancyGrid>("map", 2, true);
+    cv::flip(pgm, pgm, 1);
 
-    PgmOccupancyConverter converter {0.9, 0.2};  // define occupied and free thresholds in [0..1]
+    // fillTheGaps(pgm);
 
-    auto occupancyGrid = converter.convert(pgm);
+    auto pub = nh.advertise<nav_msgs::OccupancyGrid>("map", 10);
 
-    ros::Rate loopRate(1);
+    auto occupancyGrid = createFrom(pgm);
+
+    ros::Rate loopRate(10);
 
     while(nh.ok()) {            
         pub.publish(occupancyGrid);

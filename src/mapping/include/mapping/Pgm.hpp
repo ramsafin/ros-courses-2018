@@ -45,6 +45,19 @@ class Pgm {
 		return width_;
 	}
 
+	std::vector<uint8_t> data() const {
+		std::vector<uint8_t> buffer;
+		buffer.reserve(width_ * height_);
+
+		for (int i = 0; i < height_; ++i){
+			for (int j = 0; j < width_; ++j) {
+				buffer.push_back(data_[i][j]);
+			}
+		}
+
+		return buffer;
+	}
+
 	// access to the specified row
 	std::vector<uint8_t>& operator[] (int rowIdx) {
 		return data_[rowIdx];

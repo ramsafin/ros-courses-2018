@@ -55,8 +55,8 @@ nav_msgs::OccupancyGrid PgmOccupancyConverter::convert(Pgm &pgm) const {
 
 // see http://wiki.ros.org/map_server (#Value Interpretation)
 double PgmOccupancyConverter::computeProbability(uint8_t pixelValue) const {
-	double p = (255 - pixelValue) / (double) pixelValue;
-	if (p > occupiedThreshold_) return 100.0;
-	if (p < freeThreshold_) return 0.0;
-	return 99 * (p - freeThreshold_) / (occupiedThreshold_ - freeThreshold_);
+  double p = (255 - pixelValue) / (double) pixelValue;
+  if (p > occupiedThreshold_) return 100.0;
+  if (p < freeThreshold_) return 0.0;
+  return 99 * (p - freeThreshold_) / (occupiedThreshold_ - freeThreshold_);
 }

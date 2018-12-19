@@ -32,10 +32,9 @@
 
 class PgmOccupancyConverter {
   public:
-  	PgmOccupancyConverter(double occupiedThreshold, double freeThreshold, double mapResolution);
-  
-    nav_msgs::OccupancyGrid convert(Pgm &) const;
 
+  	PgmOccupancyConverter(double occupiedThreshold, double freeThreshold, double mapResolution);
+    nav_msgs::OccupancyGrid convert(Pgm &) const;
   private:
   	double occupiedThreshold_;
   	double freeThreshold_;

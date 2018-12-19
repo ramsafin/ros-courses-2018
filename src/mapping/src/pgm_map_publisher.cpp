@@ -114,27 +114,27 @@ nav_msgs::OccupancyGrid createFrom(cv::Mat const& img) {
 }
 
 int main(int argc, char** argv) {
-    ros::init(argc, argv, "pgm_map_publisher");
-    ros::NodeHandle nh;
+  ros::init(argc, argv, "pgm_map_publisher");
+  ros::NodeHandle nh;
 
-    auto pgm = cv::imread("/home/ramilsafin/playground_1.pgm", cv::IMREAD_UNCHANGED);
+  auto pgm = cv::imread(PGM_FILE_PATH, cv::IMREAD_UNCHANGED);
 
-    cv::flip(pgm, pgm, 1);
+  cv::flip(pgm, pgm, 1);
 
-    // fillTheGaps(pgm);
+  fillTheGaps(pgm);
 
-    auto pub = nh.advertise<nav_msgs::OccupancyGrid>("map", 10);
+  auto pub = nh.advertise<nav_msgs::OccupancyGrid>("map", 10);
 
-    auto occupancyGrid = createFrom(pgm);
+  auto occupancyGrid = createFrom(pgm);
 
-    ros::Rate loopRate(10);
+  ros::Rate loopRate(10);
 
-    while(nh.ok()) {            
-        pub.publish(occupancyGrid);
+  while(nh.ok()) {            
+    pub.publish(occupancyGrid);
 
-        ros::spinOnce();
-        loopRate.sleep();
-    }
+    ros::spinOnce();
+    loopRate.sleep();
+  }
 
-    return 0;
+  return 0;
 }

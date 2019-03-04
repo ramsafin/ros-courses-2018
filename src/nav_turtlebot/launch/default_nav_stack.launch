@@ -1,0 +1,25 @@
+<launch>
+	<arg name="world_file" default="$(env TURTLEBOT_GAZEBO_WORLD_FILE)"/>
+	<arg name="map_file" default="$(env TURTLEBOT_GAZEBO_MAP_FILE)"/>
+
+	<!-- Publishes robot's joint states, odometry, and tf -->
+	<include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch">
+		<arg name="world_file" value="$(arg world_file)"/>
+	</include>
+
+	<!-- Map -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+
+	<!-- Transform from map to odometry -->
+	<include file="$(find turtlebot_navigation)/launch/includes/amcl/amcl.launch.xml">
+		<arg name="initial_pose_x" value="0.0"/>
+		<arg name="initial_pose_y" value="0.0"/>
+		<arg name="initial_pose_a" value="0.0"/>
+	</include>
+
+	<!-- Move base -->
+	<include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
+		<!-- override params, e.g. global and local planners -->
+		<arg name="custom_param_file" value="$(find nav_turtlebot)/launch/param/custom_params.yaml"/>
+	</include>
+</launch>

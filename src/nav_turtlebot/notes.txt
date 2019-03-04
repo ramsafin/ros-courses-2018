@@ -1,0 +1,9 @@
+Launch Rviz:
+	roslaunch turtlebot_rviz_launchers view_navigation.launch
+
+Run rqt_reconfigure (tune up parameters):
+	rosrun rqt_reconfigure rqt_reconfigure
+
+and decrease navigation velocities (navigation velocity smoother).
+
+

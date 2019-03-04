@@ -1,0 +1,25 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  accel_lim_v: 0.3
+  accel_lim_w: 0.5
+  decel_factor: 0.8
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      accel_lim_v: 0.3
+      accel_lim_w: 0.5
+      decel_factor: 0.8
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      id: 0
+      name: Default
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      speed_lim_v: 0.4
+      speed_lim_w: 0.5
+      state: true
+      type: ''
+    state: []
+  speed_lim_v: 0.4
+  speed_lim_w: 0.5
+state: []

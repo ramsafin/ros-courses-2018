@@ -1,0 +1,7 @@
+# goal
+int32 order
+---
+int32 factorial
+---
+# feedback
+int32[] sequence

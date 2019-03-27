@@ -1,0 +1,12 @@
+# goal
+int32 samples
+---
+# result
+float32 mean
+float32 std_dev
+---
+# feedback
+int32 sample_num
+float32 data
+float32 mean
+float32 std_dev

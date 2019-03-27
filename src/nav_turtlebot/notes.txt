@@ -6,4 +6,7 @@ Run rqt_reconfigure (tune up parameters):
 
 and decrease navigation velocities (navigation velocity smoother).
 
+Install turtlebot packages:
+	sudo apt install ros-kinetic-turtlebot-*
+
 

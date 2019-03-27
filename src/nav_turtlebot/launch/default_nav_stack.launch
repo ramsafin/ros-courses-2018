@@ -19,7 +19,10 @@
 
 	<!-- Move base -->
 	<include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
-		<!-- override params, e.g. global and local planners -->
+		<!-- override params -->
 		<arg name="custom_param_file" value="$(find nav_turtlebot)/launch/param/custom_params.yaml"/>
 	</include>
+
+	  <!-- Launch rviz -->
+  	<include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
 </launch>

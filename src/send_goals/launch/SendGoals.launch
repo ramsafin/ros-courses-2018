@@ -1,0 +1,20 @@
+<launch>  
+  <param name="goal_x" value="2" />
+  <param name="goal_y" value="-2" />
+  <param name="goal_theta" value="180" />
+
+  <!-- gazebo parameter -->
+  <param name="/use_sim_time" value="true"/>
+  
+  <!--  Launch turtle bot world  -->
+  <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch"/>
+ 
+  <!-- Launch navigation stack with amcl -->
+  <include file="$(find turtlebot_gazebo)/launch/amcl_demo.launch"/>
+
+  <!-- Launch rviz -->
+  <include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
+  
+  <!-- Launch send goals node -->
+  <node name="send_goals_node" pkg="send_goals" type="send_goals_node" output="screen"/>
+</launch>

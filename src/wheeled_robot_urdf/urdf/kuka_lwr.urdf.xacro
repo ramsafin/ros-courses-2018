@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<robot name="kuka_lwr_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="link_mass" value="2" />
+  <xacro:property name="size_factor" value="2" />
+
+  <link name="arm_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_base.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Orange" />
+    </visual>
+
+    <xacro:cylinder_inertia mass="${link_mass/size_factor}" radius="${0.06/size_factor}" length="${0.11/size_factor}" />
+  </link>
+
+  <joint name="arm_0_joint" type="continuous">
+    <origin xyz="0 0 ${0.11/size_factor}" />
+    <parent link="arm_base_link" />
+    <child link="arm_1_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="arm_1_link">
+    <xacro:cuboid_inertia depth="${0.12/size_factor}" width="${0.06/size_factor}" height="${0.26/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <origin rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_a.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Orange" />
+    </visual>
+
+    <collision>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_a.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="arm_1_joint" type="continuous">
+    <origin xyz="0 0 ${0.20/size_factor}" />
+    <axis xyz="0 -1 0" />
+    <parent link="arm_1_link" />
+    <child link="arm_2_link" />
+  </joint>
+
+  <link name="arm_2_link">
+    <xacro:cuboid_inertia depth="${0.12/size_factor}" width="${0.06/size_factor}" height="${0.26/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <origin xyz="0 0 ${0.2/size_factor}" rpy="${pi} 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_b.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Orange" />
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 ${0.2/size_factor}" rpy="${pi} 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_b.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="arm_2_joint" type="continuous">
+    <origin xyz="0 0 ${0.2/size_factor}" />
+    <axis xyz="0 0 1" />
+    <parent link="arm_2_link" />
+    <child link="arm_3_link" />
+  </joint>
+
+  <link name="arm_3_link">
+    <xacro:cuboid_inertia depth="${0.12/size_factor}" width="${0.06/size_factor}" height="${0.26/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_a.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Orange" />
+    </visual>
+
+    <collision>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_a.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="arm_3_joint" type="continuous">
+    <origin xyz="0 0 ${0.20/size_factor}" />
+    <axis xyz="0 1 0" />
+    <parent link="arm_3_link" />
+    <child link="arm_4_link" />
+  </joint>
+
+  <link name="arm_4_link">
+    <xacro:cuboid_inertia depth="${0.12/size_factor}" width="${0.06/size_factor}" height="${0.26/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <origin xyz="0 0 ${0.2/size_factor}" rpy="0 ${pi} ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_b.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Orange" />
+    </visual>
+
+    <collision>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_b.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="arm_4_joint" type="continuous">
+    <origin xyz="0 0 ${0.20/size_factor}" />
+    <parent link="arm_4_link"/>
+    <child link="arm_5_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="arm_5_link">
+    <xacro:cuboid_inertia depth="${0.12/size_factor}" width="${0.06/size_factor}" height="${0.26/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <origin rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_last.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_segment_last.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="arm_5_joint" type="continuous">
+    <origin xyz="0 0 ${0.19/size_factor}" />
+    <parent link="arm_5_link" />
+    <child link="arm_6_link" />
+    <axis xyz="0 -1 0" />
+  </joint>
+
+  <link name="arm_6_link">
+    <xacro:cuboid_inertia depth="${0.125/size_factor}" width="${0.125/size_factor}" height="${0.125/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <origin rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_wrist.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_wrist.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="arm_6_joint" type="continuous">
+    <origin xyz="0 0 ${0.078/size_factor}" />
+    <axis xyz="0 0 1" />
+    <parent link="arm_6_link" />
+    <child link="arm_7_link" />
+  </joint>
+
+  <link name="arm_7_link">
+    <xacro:cuboid_inertia depth="${0.05/size_factor}" width="${0.05/size_factor}" height="${0.05/size_factor}" mass="${link_mass/size_factor}" />
+
+    <visual>
+      <origin rpy="0 0 ${pi}" />
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_flanche.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <mesh filename="package://wheeled_robot_urdf/meshes/arm_flanche.dae" scale="${1/size_factor} ${1/size_factor} ${1/size_factor}" />
+      </geometry>
+    </collision>
+  </link>
+
+</robot>

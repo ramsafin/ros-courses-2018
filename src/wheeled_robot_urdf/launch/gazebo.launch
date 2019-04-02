@@ -1,0 +1,24 @@
+<launch>
+  <arg name="gui" default="True" />
+  <arg name="debug" default="False" />
+  <arg name="paused" default="False" />
+  <arg name="headless" default="False" />
+  <arg name="use_sim_time" default="True" />
+
+  <arg name="model" default="$(find wheeled_robot_urdf)/urdf/wheeled_robot.urdf.xacro" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="paused" value="$(arg paused)" />
+    <arg name="headless" value="$(arg headless)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" 
+    args="-z 1.0 -unpause -urdf -model robot -param robot_description" respawn="False" output="screen" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+</launch>

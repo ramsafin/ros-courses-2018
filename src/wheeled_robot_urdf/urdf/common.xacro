@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="common" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- materials -->
+  <material name="Green">
+    <color rgba="0 0.8 0 1" />
+  </material>
+
+  <material name="Red">
+    <color rgba="0.8 0 0 1" />
+  </material>
+
+  <material name="White">
+    <color rgba="1 1 1 1" />
+  </material>
+
+  <material name="DarkGrey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+
+  <material name="Black">
+    <color rgba="0 0 0 1.0"/>
+  </material>
+
+  <material name="Orange">
+    <color rgba="1.0 0.487 0 1.0"/>
+  </material>
+
+  <material name="Silver">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <material name="Grey">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="HandGray">
+    <color rgba="0.953 0.996 0.694 1.0"/>
+  </material>
+  
+  <material name="SickBlue">
+    <color rgba="0.3058 0.5921 0.7294 1.0"/>
+  </material>
+
+  <!-- macros -->
+  <xacro:macro name="custom_inertia" params="mass ixx:=1 iyy:=1 izz:=1">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="${ixx}" ixy="0"      ixz="0" 
+                            iyy="${iyy}" iyz="0"
+                                         izz="${izz}" />
+    </inertial>
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,18 @@
+<package>
+  <name>wheeled_robot_urdf</name>
+  <version>0.1.0</version>
+
+  <description>URDF model of a wheeled robot</description>
+  <maintainer email="ramilsafnab1996@gmail.com">Ramil Safin</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>xacro</run_depend>
+
+</package>

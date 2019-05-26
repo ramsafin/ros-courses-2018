@@ -1,5 +1,5 @@
 <package>
-  <name>wheeled_robot_urdf</name>
+  <name>wheeled_robot</name>
   <version>0.1.0</version>
 
   <description>URDF model of a wheeled robot</description>

@@ -11,7 +11,7 @@
   <xacro:property name="body_height" value="0.3" />
 
   <xacro:property name="use_mesh_body" value="True" />
-  <xacro:property name="mesh_filename" value="package://wheeled_robot_urdf/meshes/chassis.dae" />
+  <xacro:property name="mesh_filename" value="package://wheeled_robot/meshes/chassis.dae" />
 
   <xacro:property name="side_wheel_mass" value="1" />
   <xacro:property name="side_wheel_length" value="0.04" />
@@ -142,7 +142,7 @@
 
   <!-- KUKA LWR -->
 
-  <xacro:include filename="$(find wheeled_robot_urdf)/urdf/kuka_lwr.urdf.xacro" />
+  <xacro:include filename="$(find wheeled_robot)/urdf/kuka_lwr.urdf.xacro" />
 
   <joint name="base_to_manipulator" type="fixed">
     <parent link="base_link" />

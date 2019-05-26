@@ -5,7 +5,7 @@
   <arg name="headless" default="False" />
   <arg name="use_sim_time" default="True" />
 
-  <arg name="model" default="$(find wheeled_robot_urdf)/urdf/wheeled_robot.urdf.xacro" />
+  <arg name="model" default="$(find wheeled_robot)/urdf/wheeled_robot.urdf.xacro" />
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find gazebo_ros)/launch/empty_world.launch"/>

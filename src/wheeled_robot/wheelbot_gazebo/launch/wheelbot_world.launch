@@ -5,7 +5,7 @@
   <arg name="headless" default="False" />
   <arg name="use_sim_time" default="True" />
 
-  <arg name="model" default="$(find wheeled_robot)/urdf/wheeled_robot.urdf.xacro" />
+  <arg name="model" default="$(find wheelbot_description)/urdf/wheelbot.urdf.xacro" />
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find gazebo_ros)/launch/empty_world.launch"/>
@@ -22,4 +22,5 @@
     args="-z 1.0 -unpause -urdf -model robot -param robot_description" respawn="False" output="screen" />
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
 </launch>

@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<robot name="wheelbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- robot parameters -->
+  <xacro:property name="body_mass" value="5" />
+  <xacro:property name="body_depth" value="0.2" />
+  <xacro:property name="body_width" value="0.5" />
+  <xacro:property name="body_height" value="0.3" />
+
+  <xacro:property name="side_wheel_mass" value="1" />
+  <xacro:property name="side_wheel_length" value="0.04" />
+  <xacro:property name="side_wheel_radius" value="${3/6 * body_depth}" />
+  <xacro:property name="side_wheel_offset_z" value="${1/5 * body_depth}" />
+
+  <xacro:property name="caster_wheel_mass" value="0.5" />
+  <xacro:property name="caster_wheel_radius" value="${side_wheel_radius / 2}" />
+
+  <xacro:property name="camera_link" value="0.05" />
+
+  <!-- macros -->
+  <xacro:include filename="macros.xacro" />
+
+  <!-- gazebo -->
+  <xacro:include filename="wheelbot.gazebo" />
+
+  <!-- dummy link workaround (suppress warning message in Gazebo) -->
+  <link name="world" />
+
+  <joint name="base_to_world" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <!-- base link -->
+  <link name="base_link">
+    <visual>
+      <material name="Black" />
+      <geometry>
+        <mesh filename="package://wheelbot_description/meshes/chassis.dae" scale="1.3 1 1" />
+      </geometry>
+    </visual> 
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://wheelbot_description/meshes/chassis.dae" scale="1.3 1 1" />
+      </geometry>
+    </collision>
+
+    <xacro:cuboid_inertia mass="${body_mass}" width="${body_width}" height="${body_height}" depth="${body_depth}" />
+  </link>
+
+  <!-- left and right side wheels -->
+  <xacro:side_wheel prefix="left" reflect="1" />
+  <xacro:side_wheel prefix="right" reflect="-1" />
+
+  <!-- 2-DoF caster wheel -->
+  <link name="caster_wheel">
+    <visual>
+      <material name="Grey" />
+      <geometry>
+        <sphere radius="${caster_wheel_radius}" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <geometry>
+        <sphere radius="${caster_wheel_radius}" />
+      </geometry>
+    </collision>
+
+    <xacro:custom_inertia mass="${caster_wheel_mass}" 
+      ixx="${2/5 * caster_wheel_mass * pow(caster_wheel_radius, 2)}"
+      iyy="${2/5 * caster_wheel_mass * pow(caster_wheel_radius, 2)}"
+      izz="${2/5 * caster_wheel_mass * pow(caster_wheel_radius, 2)}" />
+  </link>
+
+  <joint name="base_to_caster_wheel_yaw" type="continuous">
+    <parent link="base_link" />
+    <child link="caster_wheel_virtual" />
+    <origin xyz="-${body_width/2} 0 -${body_depth/2 + caster_wheel_radius - side_wheel_offset_z}" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="caster_wheel_virtual">
+    <xacro:custom_inertia mass="0.001" />
+  </link>
+
+  <joint name="base_to_caster_wheel_pitch" type="continuous">
+    <parent link="caster_wheel_virtual" />
+    <child link="caster_wheel" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <!-- camera -->
+  <joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="-${body_width/2 + 1.5 * camera_link} 0 ${body_depth / 6}" rpy="0 0 ${pi}"/>
+    <parent link="base_link" />
+    <child link="camera_link" />
+  </joint>
+
+  <link name="camera_link">
+    <visual>
+      <material name="Red" />
+      <geometry>
+        <box size="${camera_link} ${camera_link} ${camera_link}" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <material name="Grey" />
+      <geometry>
+        <box size="${camera_link} ${camera_link} ${camera_link}" />
+      </geometry>
+    </collision>
+
+    <xacro:cuboid_inertia mass="1e-5" width="${camera_link}" height="${camera_link}" depth="${camera_link}" />
+  </link>
+
+  <joint name="camera_optical_joint" type="fixed">
+    <origin rpy="${-pi/2} 0 ${-pi/2}" />
+    <parent link="camera_link" />
+    <child link="camera_link_optical" />
+  </joint>
+
+  <link name="camera_link_optical" />
+
+  <!-- LRF -->
+  <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 ${body_depth * 0.45}" rpy="0 0 ${pi}" />
+    <parent link="base_link" />
+    <child link="hokuyo_link" />
+  </joint>
+
+  <link name="hokuyo_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelbot_description/meshes/hokuyo.dae" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+    </collision>
+
+    <xacro:custom_inertia mass="1e-5" ixx="1e-6" iyy="1e-6" izz="1e-6" />
+  </link>
+
+  <!-- IMU -->
+  <joint name="imu_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <parent link="base_link" />
+    <child link="imu_link" /> 
+  </joint>
+
+  <link name="imu_link">
+    <visual>
+      <geometry>
+        <box size="1e-3 1e-3 1e-3" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="1e-3 1e-3 1e-3" />
+      </geometry>
+    </collision>
+
+    <xacro:custom_inertia mass="1e-5" ixx="1e-6" iyy="1e-6" izz="1e-6" />
+  </link>
+
+  <!-- KUKA LWR manipulator -->
+  <!--
+  <xacro:include filename="$(find wheelbot_description)/urdf/kuka_lwr.xacro" />
+
+  <joint name="base_to_manipulator" type="fixed">
+    <parent link="base_link" />
+    <child link="arm_base_link" />
+    <origin xyz="0 0 ${body_depth/3}" />
+  </joint>
+  -->
+
+  <!-- Transmissions -->
+  <transmission name="trans_base_to_caster_wheel_yaw">
+    <type>transmission_interface/SimpleTransmission</type>
+    
+    <joint name="base_to_caster_wheel_yaw">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+
+    <actuator name="base_to_caster_wheel_yaw_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

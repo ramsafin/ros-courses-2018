@@ -1,0 +1,9 @@
+<launch>  
+  <param name="/use_sim_time" value="true"/>
+  
+  <!-- Launch turtlebot -->
+  <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch"/>
+
+  <!-- keyboard teleoperation -->
+  <include file="$(find turtlebot_teleop)/launch/keyboard_teleop.launch"/>
+</launch>

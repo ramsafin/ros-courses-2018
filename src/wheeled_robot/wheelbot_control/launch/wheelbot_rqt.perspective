@@ -5,10 +5,45 @@
       "keys": {
         "running-plugins": {
           "type": "repr",
-          "repr": "{u'rqt_publisher/Publisher': [1]}"
+          "repr": "{u'rqt_publisher/Publisher': [1], u'rqt_tf_tree/RosTfTree': [1]}"
         }
       },
       "groups": {
+        "plugin__rqt_tf_tree__RosTfTree__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__RosTfTreeUi": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'TF Tree'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "highlight_connections_check_box_state": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "auto_fit_graph_check_box_state": {
+                  "type": "repr",
+                  "repr": "True"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
         "plugin__rqt_publisher__Publisher__1": {
           "keys": {},
           "groups": {
@@ -33,7 +68,7 @@
               "keys": {
                 "publishers": {
                   "type": "repr",
-                  "repr": "u\"[{'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 0, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 1, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 2, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 3, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 4, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 5, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 6, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 7, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 8, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 9, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 10, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 11, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 12, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 13, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 14, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 15, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {}, 'publisher_id': 16, 'counter': 0}]\""
+                  "repr": "u\"[{'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {u'/wheelbot/caster_wheel_pitch_effort_controller/command/data': '40/(i+1)'}, 'publisher_id': 0, 'counter': 54}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {u'/wheelbot/caster_wheel_pitch_effort_controller/command/data': '40/(i+1)'}, 'publisher_id': 1, 'counter': 29}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {u'/wheelbot/caster_wheel_pitch_effort_controller/command/data': '40/(i+1)'}, 'publisher_id': 2, 'counter': 23}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {u'/wheelbot/caster_wheel_pitch_effort_controller/command/data': '40/(i+1)'}, 'publisher_id': 3, 'counter': 90}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {u'/wheelbot/caster_wheel_pitch_effort_controller/command/data': '40/(i+1)'}, 'publisher_id': 4, 'counter': 0}, {'topic_name': '/wheelbot/caster_wheel_pitch_effort_controller/command', 'type_name': 'std_msgs/Float64', 'enabled': False, 'rate': 2.0, 'expressions': {u'/wheelbot/caster_wheel_pitch_effort_controller/command/data': '40/(i+1)'}, 'publisher_id': 5, 'counter': 0}]\""
                 }
               },
               "groups": {}
@@ -61,13 +96,13 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb000200000000030300000018000006a2000004370000030300000034000006a20000043700000000000000000780')",
-          "pretty-print": "           7   4   7     "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0002000000000041000000180000077f0000043700000041000000180000077f0000043700000000000000000780')",
+          "pretty-print": "     A     7 A     7     "
         },
         "state": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd0000000100000003000003a0000003eefc0100000002fb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c006900730068006500720057006900640067006500740100000000000003a00000026500fffffffb0000004c007200710074005f0074006f007000690063005f005f0054006f0070006900630050006c007500670069006e005f005f0031005f005f0054006f007000690063005700690064006700650074010000036d000003d20000000000000000000003a00000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
-          "pretty-print": "                 Xrqt_publisher__Publisher__1__PublisherWidget          Lrqt_topic__TopicPlugin__1__TopicWidget                            6MinimizedDockWidgetsToolbar        "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000073f0000040afc0100000002fc000000000000073f0000026500fffffffa000000010200000002fb0000004c007200710074005f00740066005f0074007200650065005f005f0052006f0073005400660054007200650065005f005f0031005f005f0052006f0073005400660054007200650065005500690100000000ffffffff0000009300fffffffb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c0069007300680065007200570069006400670065007401000000000000040a0000009300fffffffb0000004c007200710074005f0074006f007000690063005f005f0054006f0070006900630050006c007500670069006e005f005f0031005f005f0054006f007000690063005700690064006700650074010000036d000003d200000000000000000000073f0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "pretty-print": "                   ? e                                                                                                                                                         m       ?                                                      "
         }
       },
       "groups": {

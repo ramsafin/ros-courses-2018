@@ -2,6 +2,6 @@
 
 	<!-- Pre-configured RQT GUI -->
 	<node name="wheelbot_rqt" pkg="rqt_gui" type="rqt_gui" respawn="false" 
-		output="screen" args="-p $(find wheelbot_control)/launch/wheelbot_rqt.perspective" />
+		output="screen" args="--perspective-file $(find wheelbot_control)/launch/wheelbot_rqt.perspective" />
 
 </launch>

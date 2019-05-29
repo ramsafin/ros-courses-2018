@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="use_gui" default="False" />
+  <arg name="model" default="$(find wheelbot_description)/urdf/wheelbot.urdf.xacro" />
+  <arg name="rviz_config" default="$(find wheelbot_control)/launch/wheelbot_control.rviz" />
+
+  <!-- control joints using GUI tool -->
+  <param name="use_gui" value="$(arg use_gui)" />
+
+	<!-- show in Rviz -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)" />
+
+</launch>

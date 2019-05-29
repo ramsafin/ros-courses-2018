@@ -72,7 +72,7 @@ float compute_ratio(const cv::Mat& binary_frame) {
   return max_horizontal / static_cast<float>(max_vertical);
 }
 
-void image_callback(const sensor_msgs::ImageConstPtr& image, const float& scan_distance, cv::Mat& binary_frame) {
+void image_callback(const sensor_msgs::ImageConstPtr& image, const float& scan_distance, cv::Mat& binary_frame, const geometry_msgs::Pose& pose) {
   if (scan_distance < 0.0f) return;  // no scan message arrived
 
   cv::Mat hsv_frame;
@@ -88,6 +88,11 @@ void image_callback(const sensor_msgs::ImageConstPtr& image, const float& scan_d
   auto centroid = compute_centroid(binary_frame);
   auto ratio = compute_ratio(binary_frame);
 
+  double roll, pitch, yaw;
+  float x = pose.position.x;
+  float y = pose.position.y;
+  boost::tie(roll, pitch, yaw) = rpy_from(pose.orientation);
+
   cv::putText(image_ptr->image, std::string{"Ratio: "} + std::to_string(ratio), cv::Point(5, 15),
             cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, cv::Scalar(255, 255, 255), 1);
 
@@ -99,6 +104,9 @@ void image_callback(const sensor_msgs::ImageConstPtr& image, const float& scan_d
 
   cv::putText(image_ptr->image, std::string{"Pixels/Distance: "} + std::to_string(white_pixels_num / scan_distance), cv::Point(5, 75),
           cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, cv::Scalar(255, 255, 255), 1);
+
+  cv::putText(image_ptr->image, std::string{"Pose (x, y, theta): ("} + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(yaw) + ")",
+   cv::Point(5, 95), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, cv::Scalar(255, 255, 255), 1);
 
   if (centroid.x >= 0 && centroid.y >= 0) {
     cv::circle(image_ptr->image, centroid, 5, cv::Scalar(0, 0, 255), -1);   
@@ -122,12 +130,12 @@ void laser_callback(const sensor_msgs::LaserScanConstPtr& scan, float& scan_dist
 
   float mean = 0.0f;
 
-  if (filtered_ranges.size() < 20) {
+  if (filtered_ranges.size() < 10) {
     mean = std::accumulate(filtered_ranges.begin(), filtered_ranges.end(), 0.0) / filtered_ranges.size();
   } else {
     // distance around the middle
     auto middle_it = filtered_ranges.begin() + filtered_ranges.size() / 2;
-    mean = std::accumulate(middle_it - 10, middle_it + 9, 0.0) / 20.0;
+    mean = std::accumulate(middle_it - 5, middle_it + 4, 0.0) / 10.0;
   }
 
   scan_distance = mean;  // update scan distance
@@ -144,41 +152,51 @@ void publish_cmd_vel(float x, float z, ros::Publisher& pub) {
   pub.publish(cmd);
 }
 
-double compute_distance(double x0, double y0, double x1, double y1) {
-  return std::pow(x1 - x0, 2) + std::pow(y1 - y0, 2);
-}
 
-void turn_45deg_and_move_forward(ros::Publisher& pub, const geometry_msgs::Pose& pose) {  
+void turn_and_move_forward(ros::Publisher& pub, const geometry_msgs::Pose& pose, float& scan_distance) {  
   double roll, pitch, yaw;
   boost::tie(roll, pitch, yaw) = rpy_from(pose.orientation);
 
-  double desired_yaw = yaw + M_PI_4;
+  double desired_yaw = 0.0f;
+
+  if (yaw >= 0.0 && yaw <= M_PI_2) {  // 1st quarter
+    desired_yaw = yaw + M_PI_4;
+  
+  } else if (yaw >= M_PI_2 && yaw <= M_PI) {  // 2nd quarter
+    desired_yaw = yaw - M_PI_4;
+
+  } else if (yaw >= -M_PI && yaw <= -M_PI_2) {  // 3rd quarter
+    desired_yaw = yaw + M_PI_4;
+
+  } else { // 4th quarter
+    desired_yaw = yaw - M_PI_4;
+  }
   
   ROS_INFO("Reference yaw: %.6f, target: %.6f", yaw, desired_yaw);
 
-  ros::Rate rate(60);
+  ros::Rate rate(30);
 
-  while(std::abs(boost::get<2>(rpy_from(pose.orientation)) - desired_yaw) > 0.17f) {  // ~10 degrees accuracy
-    publish_cmd_vel(0.0f, 0.1f, pub);
-
-    ROS_INFO("Current yaw: %.6f", boost::get<2>(rpy_from(pose.orientation)));
-
+  while(std::abs(boost::get<2>(rpy_from(pose.orientation)) - desired_yaw) > 0.2f) {
+    publish_cmd_vel(0.0f, 0.15f, pub);
+    
     ros::spinOnce();
+    rate.sleep();
   }
 
   double ref_x = pose.position.x;
   double ref_y = pose.position.y;
 
-  double desired_distance = 8.0f;  // meters^2
+  double desired_distance = 10.0f;  // meters^2
 
   ROS_INFO("Reference (x, y) = (%.6f, %.6f)", ref_x, ref_y);
 
-  while (std::abs(compute_distance(ref_x, ref_y, pose.position.x, pose.position.y) - desired_distance) > 0.4f)  {
-    publish_cmd_vel(0.1f, 0.0f, pub);
-
-    ROS_INFO("Current position (x, y) = (%.3f, %3.f)", pose.position.x, pose.position.y);
-
+  while ((std::isnan(scan_distance) || scan_distance >= 0.2f) 
+    && std::abs(std::pow(pose.position.x - ref_x, 2) + std::pow(pose.position.y - ref_y, 2) - desired_distance) > 1.0f)  
+  {
+    publish_cmd_vel(0.12f, 0.0f, pub);
+    
     ros::spinOnce();
+    rate.sleep();
   }
 }
 
@@ -191,7 +209,7 @@ int main(int argc, char *argv[]) {
   geometry_msgs::Pose pose;
   cv::Mat binary_frame;
 
-  ImageSubscriber img_subscriber(nh, kImageRawTopic, boost::bind(&image_callback, _1, boost::cref(scan_distance), boost::ref(binary_frame)));
+  ImageSubscriber img_subscriber(nh, kImageRawTopic, boost::bind(&image_callback, _1, boost::cref(scan_distance), boost::ref(binary_frame), boost::cref(pose)));
   LaserSubscriber laser_subscriber(nh, kLaserScanTopic, boost::bind(&laser_callback, _1, boost::ref(scan_distance)));
 
   auto odom_subscriber = nh.subscribe<nav_msgs::Odometry>("/odom", 3, boost::bind(&odom_callback, _1, boost::ref(pose)));
@@ -200,7 +218,7 @@ int main(int argc, char *argv[]) {
   cv::namedWindow(kCaptureWindow);
   cv::namedWindow(kHsvWindow);
 
-  ros::Rate rate(50);
+  ros::Rate rate(60);
 
   while(nh.ok()) {
 
@@ -233,23 +251,21 @@ int main(int argc, char *argv[]) {
           if (ratio > 1.4f) {
             is_large_side = true;
 
-          } else if (ratio > 1.2f && pixel_distance_ratio > 20 * 1E3f) {
+          } else if (ratio > 1.18f && pixel_distance_ratio > 20 * 1E3f) {
             is_large_side = true;
 
           } else {
             is_large_side = false;
           }
 
-          ROS_INFO("%s", is_large_side? "Large" : "Small");
-
           if (is_large_side && scan_distance > 1.03f) {
-            ROS_INFO("Approaching container ...");
+            ROS_INFO("Approaching container for 1 meter ...");
             publish_cmd_vel(0.1f, 0.0f, cmd_vel_publisher);
           }
 
           if (!is_large_side) {
-            // turn 90 degrees and move forward for 2 meters
-            turn_45deg_and_move_forward(cmd_vel_publisher, pose);
+            // turn and move forward
+            turn_and_move_forward(cmd_vel_publisher, pose, scan_distance);
           }
         }
       }

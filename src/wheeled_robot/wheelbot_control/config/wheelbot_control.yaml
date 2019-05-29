@@ -5,7 +5,23 @@ wheelbot:
     publish_rate: 50  
   
   # Effort Controllers ---------------------------------------
-  base_to_caster_wheel_yaw_effort_controller:
+  caster_wheel_pitch_effort_controller:
     type: effort_controllers/JointEffortController
+    joint: base_to_caster_wheel_pitch
+    pid: {p: 1.0, i: 0.0, d: 0.0}
+
+  # Position Controllers ---------------------------------------
+  caster_wheel_yaw_position_controller:
+    type: effort_controllers/JointPositionController
     joint: base_to_caster_wheel_yaw
-    pid: {p: 100.0, i: 0.01, d: 10.0}
+    pid: {p: 100.0, i: 0.1, d: 0.01}
+
+  left_wheel_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: base_to_left_wheel
+    pid: {p: 100.0, i: 0.1, d: 0.01}
+
+  right_wheel_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: base_to_right_wheel
+    pid: {p: 100.0, i: 0.1, d: 0.01}

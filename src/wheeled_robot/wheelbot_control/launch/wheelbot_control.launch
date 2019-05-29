@@ -1,11 +1,13 @@
 <launch>
+
+	<!-- load controller parameters into ROS parameter server -->
   <rosparam file="$(find wheelbot_control)/config/wheelbot_control.yaml" command="load"/>
 
-  <!-- load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen" ns="/wheelbot" args="joint_state_controller base_to_caster_wheel_yaw_effort_controller"/>
+  <!-- load defined controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/wheelbot"
+   args="joint_state_controller caster_wheel_yaw_position_controller caster_wheel_pitch_effort_controller left_wheel_position_controller right_wheel_position_controller"/>
 
-  <!-- convert joint states to TF transforms for rviz, etc -->
+  <!-- convert joint states to TF transforms for Rviz -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
 	respawn="false" output="screen">
     <remap from="/joint_states" to="/wheelbot/joint_states" />

@@ -6,14 +6,23 @@
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>/wheelbot</robotNamespace>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-      <legacyModeNS>true</legacyModeNS>
+      <legacyModeNS>false</legacyModeNS>
     </plugin>
   </gazebo>
 
-  <gazebo reference="camera_link">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
-    <material>Gazebo/Orange</material>
+  <gazebo reference="left_wheel">
+    <mu1>0.3</mu1>
+    <mu2>0.3</mu2>
+  </gazebo>
+
+  <gazebo reference="right_wheel">
+    <mu1>0.3</mu1>
+    <mu2>0.3</mu2>
+  </gazebo>
+
+  <gazebo reference="caster_wheel">
+    <mu1>0.8</mu1>
+    <mu2>0.8</mu2>
   </gazebo>
 
   <!-- hokuyo -->
@@ -99,6 +108,7 @@
     </sensor>
   </gazebo>
 
+  <!-- IMU -->
   <gazebo reference="imu_link">
     <gravity>true</gravity>
 
